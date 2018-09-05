@@ -1,0 +1,35 @@
+<!--component html goes here -->
+<clr-datagrid>
+        <clr-dg-column>
+            Job #
+            <clr-dg-string-filter [clrDgStringFilter]="jobFilter"></clr-dg-string-filter>
+        </clr-dg-column>
+        <clr-dg-column>Work Center</clr-dg-column>
+        <clr-dg-column>Mutual</clr-dg-column>
+        <clr-dg-column>Title</clr-dg-column>
+        <clr-dg-column>Budget Year</clr-dg-column>
+        <clr-dg-column>Budget</clr-dg-column>
+        <clr-dg-column>Balance</clr-dg-column>
+        <clr-dg-column>Committed</clr-dg-column>
+        <clr-dg-column>Uncommitted</clr-dg-column>
+    
+        <clr-dg-row *clrDgItems="let job of jobs" [clrDgItem]="job">
+            <clr-dg-cell><a [routerLink]="['/jobs', job.proj_id]">{{job.job_num}}</a></clr-dg-cell>
+            <clr-dg-cell>{{job.work_center}}</clr-dg-cell>
+            <clr-dg-cell>{{job.mutual}}</clr-dg-cell>
+            <clr-dg-cell>{{job.job_title}}</clr-dg-cell>
+            <clr-dg-cell>{{job.year}}</clr-dg-cell>
+            <clr-dg-cell>{{job.budget | currency}}</clr-dg-cell>
+            <clr-dg-cell>{{job.balance | currency}}</clr-dg-cell>
+            <clr-dg-cell>{{job.bud_committed | currency}}</clr-dg-cell>
+            <clr-dg-cell>{{job.bud_uncommitted | currency}}</clr-dg-cell>
+        </clr-dg-row>
+    
+        <clr-dg-footer>
+                <clr-dg-pagination #pagination [clrDgPageSize]="20">
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} jobs
+                    </clr-dg-pagination>
+                
+            </clr-dg-footer>
+    </clr-datagrid>
