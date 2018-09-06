@@ -1,4 +1,6 @@
 <!--component html goes here -->
+<h1>Job List</h1>
+<button class="btn">Add Project</button>
 <clr-datagrid>
         <clr-dg-column>
             Job #
@@ -8,10 +10,10 @@
         <clr-dg-column>Mutual</clr-dg-column>
         <clr-dg-column>Title</clr-dg-column>
         <clr-dg-column>Budget Year</clr-dg-column>
-        <clr-dg-column>Budget</clr-dg-column>
-        <clr-dg-column>Balance</clr-dg-column>
-        <clr-dg-column>Committed</clr-dg-column>
-        <clr-dg-column>Uncommitted</clr-dg-column>
+        <clr-dg-column [clrDgField]="'budget'" [clrDgSortOrder]="descSort">Budget</clr-dg-column>
+        <clr-dg-column [clrDgField]="'balance'" [clrDgSortOrder]="descSort">Balance</clr-dg-column>
+        <clr-dg-column [clrDgField]="'bud_committed'" [clrDgSortOrder]="descSort">Committed</clr-dg-column>
+        <clr-dg-column [clrDgField]="'bud_uncommitted'" [clrDgSortOrder]="descSort">Uncommitted</clr-dg-column>
     
         <clr-dg-row *clrDgItems="let job of jobs" [clrDgItem]="job">
             <clr-dg-cell><a [routerLink]="['/jobs', job.proj_id]">{{job.job_num}}</a></clr-dg-cell>
@@ -26,7 +28,7 @@
         </clr-dg-row>
     
         <clr-dg-footer>
-                <clr-dg-pagination #pagination [clrDgPageSize]="20">
+                <clr-dg-pagination #pagination [clrDgPageSize]="15">
                     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
                     of {{pagination.totalItems}} jobs
                     </clr-dg-pagination>

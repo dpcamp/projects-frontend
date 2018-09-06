@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from '../../shared/services/';
 import { Job, Invoice, Requisition } from '../../shared/models/';
-import {ClrDatagridStringFilterInterface} from '@clr/angular';
+import {ClrDatagridStringFilterInterface, ClrDatagridSortOrder} from '@clr/angular';
 
 
 class JobFilter implements ClrDatagridStringFilterInterface<Job> {
@@ -23,6 +23,7 @@ export class JobListComponent implements OnInit {
     reqs: Requisition[];
     invs: Invoice[];
     private jobFilter = new JobFilter();
+    descSort = ClrDatagridSortOrder.DESC;
 
     constructor(
     private jobService: JobService
