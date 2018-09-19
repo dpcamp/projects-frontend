@@ -31,7 +31,7 @@ export class JobService {
    * Takes job_num
    */
   getSingle(id: string): Observable<any> {
-    return this.httpClient.get(`${this.jobsUrl}/${id}`)
+    return this.httpClient.get(`${this.jobsUrl}/proj_id/${id}`)
       .pipe(
         map(res => res),
       // .map(users => users.map(this.toUser))
