@@ -144,10 +144,14 @@
                         <label>Job #</label>
                         <input clrInput type="text" [(ngModel)]="newJob.job_num" name="job_num" (blur)="concatProjID()" required />
                     </clr-input-container>
-                    <clr-input-container>
+                    <clr-select-container>
                         <label>Mutual</label>
-                        <input clrInput type="text" [(ngModel)]="newJob.mutual" name="mutual" (blur)="concatProjID()" required />
-                    </clr-input-container>
+                        <select clrSelect name="mutual" [(ngModel)]="newJob.mutual" name="mutual" (blur)="concatProjID()" required>
+                        <option>GRF</option>
+                        <option>Third</option>
+                        <option>United</option>
+                        </select>                            
+                    </clr-select-container>
                     <clr-input-container>
                             <label>GL Code</label>
                             <input clrInput type="text" [(ngModel)]="newJob.gl_num" name="gl_num"  />
