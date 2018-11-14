@@ -1,37 +1,173 @@
-<!--component html goes here -->
-<h1>Job List</h1>
-<button class="btn">Add Project</button>
-<clr-datagrid>
-        <clr-dg-column>
-            Job #
-            <clr-dg-string-filter [clrDgStringFilter]="jobFilter"></clr-dg-string-filter>
-        </clr-dg-column>
-        <clr-dg-column>Work Center</clr-dg-column>
-        <clr-dg-column>Mutual</clr-dg-column>
-        <clr-dg-column>Title</clr-dg-column>
-        <clr-dg-column>Budget Year</clr-dg-column>
-        <clr-dg-column [clrDgField]="'budget'" [clrDgSortOrder]="descSort">Budget</clr-dg-column>
-        <clr-dg-column [clrDgField]="'balance'" [clrDgSortOrder]="descSort">Balance</clr-dg-column>
-        <clr-dg-column [clrDgField]="'bud_committed'" [clrDgSortOrder]="descSort">Committed</clr-dg-column>
-        <clr-dg-column [clrDgField]="'bud_uncommitted'" [clrDgSortOrder]="descSort">Uncommitted</clr-dg-column>
+<div class="content-container">
+        <div class="content-area">
+                <h1>Job List</h1>
+                <button class="btn"(click)="openJobWizard()">Add Job</button>
+                <!--<button class="btn" (click)="openWizard()">Add Invoice</button>-->
+
+                <clr-datagrid>
+                        <clr-dg-column>
+                            Job #
+                            <clr-dg-string-filter [clrDgStringFilter]="jobFilter"></clr-dg-string-filter>
+                        </clr-dg-column>
+                        <clr-dg-column>Work Center</clr-dg-column>
+                        <clr-dg-column>Mutual</clr-dg-column>
+                        <clr-dg-column>Title</clr-dg-column>
+                        <clr-dg-column>Budget Year</clr-dg-column>
+                        <clr-dg-column [clrDgField]="'budget'" [clrDgSortOrder]="descSort">Budget</clr-dg-column>
+                        <clr-dg-column [clrDgField]="'live_expended'" [clrDgSortOrder]="descSort">Expenditures</clr-dg-column>
+                        <clr-dg-column [clrDgField]="'live_balance'" [clrDgSortOrder]="descSort">Balance</clr-dg-column>
+                        <clr-dg-column [clrDgField]="'live_committed'" [clrDgSortOrder]="descSort">Committed</clr-dg-column>
+                        <clr-dg-column [clrDgField]="'live_uncommitted'" [clrDgSortOrder]="descSort">Uncommitted</clr-dg-column>
+                    
+                        <clr-dg-row *clrDgItems="let job of jobs" [clrDgItem]="job">
+                            <clr-dg-cell><a [routerLink]="['/jobs', job.proj_id]">{{job.job_num}}</a></clr-dg-cell>
+                            <clr-dg-cell>{{job.work_center}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.mutual}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.job_title}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.year}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.budget | currency}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.live_expended | currency}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.live_balance | currency}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.live_committed | currency}}</clr-dg-cell>
+                            <clr-dg-cell>{{job.live_uncommitted | currency}}</clr-dg-cell>
+                        </clr-dg-row>
+                    
+                        <clr-dg-footer>
+                                <clr-dg-pagination #pagination [clrDgPageSize]="15">
+                                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                                    of {{pagination.totalItems}} jobs
+                                    </clr-dg-pagination>
+                                
+                            </clr-dg-footer>
+                    </clr-datagrid>
+        </div>
+        <!--<nav class="sidenav">
+                <section class="sidenav-content">
+                    <a href="..." class="nav-link active">
+                        Nav Element 1
+                    </a>
+                    <a href="..." class="nav-link">
+                        Nav Element 2
+                    </a>
+                    <section class="nav-group collapsible">
+                        <input id="tabexample1" type="checkbox">
+                        <label for="tabexample1">Collapsible Nav Element</label>
+                        <ul class="nav-list">
+                            <li><a class="nav-link">Link 1</a></li>
+                            <li><a class="nav-link">Link 2</a></li>
+                        </ul>
+                    </section>
+                    <section class="nav-group">
+                        <input id="tabexample2" type="checkbox">
+                        <label for="tabexample2">Default Nav Element</label>
+                        <ul class="nav-list">
+                            <li><a class="nav-link">Link 1</a></li>
+                            <li><a class="nav-link">Link 2</a></li>
+                            <li><a class="nav-link active">Link 3</a></li>
+                            <li><a class="nav-link">Link 4</a></li>
+                            <li><a class="nav-link">Link 5</a></li>
+                            <li><a class="nav-link">Link 6</a></li>
+                        </ul>
+                    </section>
+                </section>
+            </nav>-->
+    </div>
+
+    <clr-wizard #wizardlg [(clrWizardOpen)]="lgOpen" clrWizardSize="lg" (clrWizardOnFinish)="createInv()">
+        <clr-wizard-title>New Invoice</clr-wizard-title>
     
-        <clr-dg-row *clrDgItems="let job of jobs" [clrDgItem]="job">
-            <clr-dg-cell><a [routerLink]="['/jobs', job.proj_id]">{{job.job_num}}</a></clr-dg-cell>
-            <clr-dg-cell>{{job.work_center}}</clr-dg-cell>
-            <clr-dg-cell>{{job.mutual}}</clr-dg-cell>
-            <clr-dg-cell>{{job.job_title}}</clr-dg-cell>
-            <clr-dg-cell>{{job.year}}</clr-dg-cell>
-            <clr-dg-cell>{{job.budget | currency}}</clr-dg-cell>
-            <clr-dg-cell>{{job.balance | currency}}</clr-dg-cell>
-            <clr-dg-cell>{{job.bud_committed | currency}}</clr-dg-cell>
-            <clr-dg-cell>{{job.bud_uncommitted | currency}}</clr-dg-cell>
-        </clr-dg-row>
+        <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+        <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+        <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+        <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
     
-        <clr-dg-footer>
-                <clr-dg-pagination #pagination [clrDgPageSize]="15">
-                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-                    of {{pagination.totalItems}} jobs
-                    </clr-dg-pagination>
-                
-            </clr-dg-footer>
-    </clr-datagrid>
+        <clr-wizard-page>
+            <ng-template clrPageTitle>Invoice Information</ng-template>
+            <form clrForm horizontal *ngIf="newInv">
+                <clr-input-container>
+                    <label>Invoice #</label>
+                    <input clrInput type="text" [(ngModel)]="newInv.inv_num" name="inv_num" required />
+                </clr-input-container>
+                <clr-input-container>
+                    <label>Name</label>
+                    <input clrInput type="text" [(ngModel)]="newInv.line_name" name="line_name" required />
+                </clr-input-container>
+                <clr-input-container>
+                    <label>Net Amount</label>
+                    <input clrInput type="text" [(ngModel)]="newInv.net_amount" name="net_amount" required />
+                </clr-input-container>
+                <clr-input-container>
+                    <label>PO</label>
+                    <input clrInput type="text" [(ngModel)]="newInv.appr_amount" name="appr_amount" required />
+                </clr-input-container>
+                <clr-input-container>
+                    <label>Description</label>
+                    <input clrInput type="text" [(ngModel)]="newInv.description" name="description" required />
+                </clr-input-container>
+                <clr-select-container>
+                    <label>Project ID</label>
+                    <select clrSelect name="proj_id" [ngModel]="newInv.proj_id" name="proj_id" (ngModelChange)="newInv.proj_id = $event" (blur)="getJobBud()" required>
+                    <option name="proj_id" *ngFor="let job of jobs" [value]="job.proj_id">
+                        {{ job.proj_id }}
+                    </option>
+                    </select>
+                </clr-select-container>
+                <clr-input-container>
+                        <label>Project Balance</label>
+                        <input clrInput type="text" [(ngModel)]="newBalance" name="newBalance" required />
+                    </clr-input-container>
+                    <clr-input-container>
+                        <label>Committed</label>
+                        <input clrInput type="text" [(ngModel)]="newCommitted" name="newCommitted" required />
+                    </clr-input-container>
+            </form>
+        </clr-wizard-page>
+    
+
+    </clr-wizard>
+    <clr-wizard #jobWiz [(clrWizardOpen)]="jobOpen" clrWizardSize="lg" (clrWizardOnFinish)="createJob()">
+            <clr-wizard-title>New Job</clr-wizard-title>
+        
+            <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+            <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+            <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+            <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+        
+            <clr-wizard-page>
+                <ng-template clrPageTitle>Job Information</ng-template>
+                <form clrForm horizontal *ngIf="newJob">
+                    <clr-input-container>
+                            <label>Title</label>
+                            <input clrInput type="text" [(ngModel)]="newJob.job_title" name="job_title" required />
+                        </clr-input-container>
+                    <clr-input-container>
+                        <label>Job #</label>
+                        <input clrInput type="text" [(ngModel)]="newJob.job_num" name="job_num" (blur)="concatProjID()" required />
+                    </clr-input-container>
+                    <clr-input-container>
+                        <label>Mutual</label>
+                        <input clrInput type="text" [(ngModel)]="newJob.mutual" name="mutual" (blur)="concatProjID()" required />
+                    </clr-input-container>
+                    <clr-input-container>
+                            <label>GL Code</label>
+                            <input clrInput type="text" [(ngModel)]="newJob.gl_num" name="gl_num"  />
+                        </clr-input-container>
+                    <clr-input-container>
+                        <label>Project ID</label>
+                        <input clrInput type="text" [(ngModel)]="newJob.proj_id" name="proj_id" required />
+                    </clr-input-container>
+                    <clr-input-container>
+                        <label>Budget</label>
+                        <input clrInput type="text" [(ngModel)]="newJob.budget" name="budget" required />
+                    </clr-input-container>
+                    <clr-input-container>
+                            <label>Budget Year</label>
+                            <input clrInput type="text" [(ngModel)]="newJob.year" name="year" required />
+                        </clr-input-container>
+
+  
+
+                </form>
+            </clr-wizard-page>
+
+        </clr-wizard>

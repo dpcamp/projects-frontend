@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  jobsUrl: 'http://192.168.235.96:3000/api/jobs'
+  jobsUrl: 'http://192.168.235.96:3000/api/jobs',
+  invsUrl: 'http://192.168.235.96:3000/api/invoices'
 };
 
 /*

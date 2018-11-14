@@ -18,7 +18,7 @@ export class JobService {
     /**
    * Get all jobs
    */
-  getJobs(): Observable<any> {
+    getJobs(): Observable<any> {
     return this.httpClient.get(this.jobsUrl)
       .pipe(
         map(res => res),
@@ -38,6 +38,56 @@ export class JobService {
        catchError(this.handleError)
     );
 }
+    /**
+   * Updates single job.
+   * Takes proj_id
+   */
+  updateJob(job: Job): Observable<any> {
+    return this.httpClient.put(`${this.jobsUrl}/proj_id/${job.proj_id}`, job)
+      .pipe(
+        map(res => res),
+      // .map(users => users.map(this.toUser))
+       catchError(this.handleError)
+    );
+}
+    /**
+   * Updates single job.
+   * Takes proj_id
+   */
+  deleteJob(job: Job): Observable<any> {
+    return this.httpClient.delete(`${this.jobsUrl}/proj_id/${job.proj_id}`)
+      .pipe(
+        map(res => res),
+      // .map(users => users.map(this.toUser))
+       catchError(this.handleError)
+    );
+}
+
+    /**
+   * creates a new job.
+   * 
+   */
+  createJob(job: Job): Observable<any> {
+    return this.httpClient.post(`${this.jobsUrl}/`, job)
+      .pipe(
+        map(res => res),
+      // .map(users => users.map(this.toUser))
+       catchError(this.handleError)
+    );
+}
+    /**
+   * gets single project financial data.
+   * Takes proj_id
+   */
+  getBudget(id: string): Observable<any> {
+    return this.httpClient.get(`${this.jobsUrl}/proj_budget/${id}`)
+      .pipe(
+        map(res => res),
+      // .map(users => users.map(this.toUser))
+       catchError(this.handleError)
+    );
+}
+
     /**
    * Handle any errors from the API
    */

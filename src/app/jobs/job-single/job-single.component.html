@@ -1,60 +1,181 @@
-<!--component html goes here -->
-<section class="wrapper" *ngIf="job">
-<h1>{{job.job_num}}</h1>
-    <clr-datagrid>
-        <clr-dg-column>id</clr-dg-column>
-        <clr-dg-column>Name</clr-dg-column>
-        <clr-dg-column>Description</clr-dg-column>
-        <clr-dg-column>Location</clr-dg-column>
-        <clr-dg-column>GL Code</clr-dg-column>
-        <clr-dg-column>PO #</clr-dg-column>
-        <clr-dg-column>Amount</clr-dg-column>
-    
-        <clr-dg-row *clrDgItems="let req of job['requisitions']" [clrDgItem]="reqs">
-            <clr-dg-cell>{{req.line_num}}</clr-dg-cell>
-            <clr-dg-cell>{{req.line_name}}</clr-dg-cell>
-            <clr-dg-cell>{{req.req_desc}}</clr-dg-cell>
-            <clr-dg-cell>{{req.location}}</clr-dg-cell>
-            <clr-dg-cell>{{req.gl_code}}</clr-dg-cell>
-            <clr-dg-cell>{{req.po_num}}</clr-dg-cell>
-            <clr-dg-cell>{{req.amount | currency}}</clr-dg-cell>
-        </clr-dg-row>
-    
-        <clr-dg-footer>
-                <clr-dg-pagination #pagination1 [clrDgPageSize]="20">
-                    {{pagination1.firstItem + 1}} - {{pagination1.lastItem + 1}}
-                    of {{pagination1.totalItems}} requisitions
-                    </clr-dg-pagination>
+<div class="content-container">
+    <div class="content-area">
+            <section class="wrapper" *ngIf="job && project">
+                <h1>{{job.job_title}}</h1>
+                <h3>Budget: {{job.budget | currency}}</h3>
+                <h5>Committed: {{project.live_committed | currency}}</h5>
+                <h5>Uncommitted: {{project.live_uncommitted | currency}}</h5>
+                <h5>Expended: {{project.live_expended | currency}}</h5>
+                <h3>Balance: {{project.live_balance | currency}}</h3>
                 
-            </clr-dg-footer>
-    </clr-datagrid>
-    
-    <clr-datagrid>
-            <clr-dg-column>id</clr-dg-column>
-            <clr-dg-column>Invoice #</clr-dg-column>
-            <clr-dg-column>Description</clr-dg-column>
-            <clr-dg-column>Net Amount</clr-dg-column>
-            <clr-dg-column>Approved Amount</clr-dg-column>
-            <clr-dg-column>Paid</clr-dg-column>
-            <clr-dg-column>Change Order</clr-dg-column>
-        
-            <clr-dg-row *clrDgItems="let inv of job['invoices']" [clrDgItem]="invs">
-                <clr-dg-cell>{{inv.line_num}}</clr-dg-cell>
-                <clr-dg-cell>{{inv.inv_num}}</clr-dg-cell>
-                <clr-dg-cell>{{inv.line_name}}</clr-dg-cell>
-                <clr-dg-cell>{{inv.net_amount | currency}}</clr-dg-cell>
-                <clr-dg-cell>{{inv.appr_amount | currency}}</clr-dg-cell>
-                <clr-dg-cell>{{inv.is_paid}}</clr-dg-cell>
-                <clr-dg-cell>{{inv.is_change_order}}</clr-dg-cell>
+            </section>
+        <clr-tabs>
+
+
+
+            <clr-tab>
+                <button clrTabLink id="requisitions">Requisitions</button>
                 
-            </clr-dg-row>
-        
-            <clr-dg-footer>
-                    <clr-dg-pagination #pagination2 [clrDgPageSize]="20">
-                        {{pagination2.firstItem + 1}} - {{pagination2.lastItem + 1}}
-                        of {{pagination2.totalItems}} invoices
-                        </clr-dg-pagination>
-                    
-                </clr-dg-footer>
-        </clr-datagrid>
-</section>
+                <clr-tab-content *clrIfActive="true">
+                        <section class="wrapper" *ngIf="job">
+                        <clr-datagrid>
+                            <clr-dg-column>Requisition</clr-dg-column>
+                            <clr-dg-column>Line</clr-dg-column>
+                            <clr-dg-column>Name</clr-dg-column>
+                            <clr-dg-column>Description</clr-dg-column>
+                            <clr-dg-column>Location</clr-dg-column>
+                            <clr-dg-column>GL Code</clr-dg-column>
+                            <clr-dg-column>PO #</clr-dg-column>
+                            <clr-dg-column>Amount</clr-dg-column>
+
+                            <clr-dg-row *clrDgItems="let req of job['requisitions']">
+
+                                <clr-dg-cell>{{req.req_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{req.line_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{req.line_name}}</clr-dg-cell>
+                                <clr-dg-cell>{{req.req_desc}}</clr-dg-cell>
+                                <clr-dg-cell>{{req.location}}</clr-dg-cell>
+                                <clr-dg-cell>{{req.gl_code}}</clr-dg-cell>
+                                <clr-dg-cell>{{req.po_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{req.amount | currency}}</clr-dg-cell>
+                            </clr-dg-row>
+
+                            <clr-dg-footer>
+                                <clr-dg-pagination #pagination1 [clrDgPageSize]="20">
+                                    {{pagination1.firstItem + 1}} - {{pagination1.lastItem + 1}}
+                                    of {{pagination1.totalItems}} requisitions
+                                </clr-dg-pagination>
+
+                            </clr-dg-footer>
+                        </clr-datagrid>
+                    </section>
+                </clr-tab-content>
+            </clr-tab>
+            <clr-tab>
+                <button clrTabLink id="invoices">Invoices</button>
+                <button style="margin-top: 10px" class="btn btn-sm" (click)="openWizard()">Add Invoice</button>
+
+                <clr-tab-content *clrIfActive="true">
+                    <section  class="wrapper" *ngIf="job">
+                        <clr-datagrid style="margin-top: -15px">
+                            <clr-dg-column>Invoice #</clr-dg-column>
+                            <clr-dg-column>Invoice Date</clr-dg-column>
+                            <clr-dg-column>Description</clr-dg-column>
+                            <clr-dg-column>PO #</clr-dg-column>
+                            <clr-dg-column>Net Amount</clr-dg-column>
+                            <clr-dg-column>Approved Amount</clr-dg-column>
+                            <clr-dg-column>Paid</clr-dg-column>
+                            <clr-dg-column>Change Order</clr-dg-column>
+                            <clr-dg-row *clrDgItems="let inv of job['invoices']" [clrDgItem]="inv">
+                                    <clr-dg-action-overflow>
+                                            <button class="action-item" (click)="editInvWiz(inv)">Edit</button>
+                                            <button class="action-item" (click)="deleteInv(inv)">Delete</button>
+                                        </clr-dg-action-overflow>
+                                <clr-dg-cell>{{inv.inv_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.inv_date}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.line_name}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.po_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.net_amount | currency}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.appr_amount | currency}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.is_paid}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.is_change_order}}</clr-dg-cell>
+                            </clr-dg-row>
+                            <clr-dg-footer>
+                                <clr-dg-pagination #pagination2 [clrDgPageSize]="20">
+                                    {{pagination2.firstItem + 1}} - {{pagination2.lastItem + 1}}
+                                    of {{pagination2.totalItems}} invoices
+                                </clr-dg-pagination>
+                            </clr-dg-footer>
+                        </clr-datagrid>
+                    </section>
+                </clr-tab-content>
+            </clr-tab>
+        </clr-tabs>
+    </div>
+</div>
+    <clr-wizard #invWizard [(clrWizardOpen)]="invOpen" clrWizardSize="lg" (clrWizardOnFinish)="createInv()">
+        <clr-wizard-title>New Invoice</clr-wizard-title>
+        <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+        <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+        <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+        <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+        <clr-wizard-page *ngIf="job && newInv">
+    <ng-template clrPageTitle>Invoice Information</ng-template>
+    <form clrForm horizontal >
+            <div class="toggle-switch">
+                    <input type="checkbox" [(ngModel)]="newInv.is_change_order" name="is_change_order" id="toggle_1">
+                    <label for="toggle_1">Change Order</label>
+                </div>
+        <clr-input-container>
+            <label>Invoice #</label>
+            <input clrInput type="text" [(ngModel)]="newInv.inv_num" name="inv_num" required />
+        </clr-input-container>
+        <clr-input-container>
+            <label>Name</label>
+            <input clrInput type="text" [(ngModel)]="newInv.line_name" name="line_name" required />
+        </clr-input-container>
+        <clr-input-container>
+            <label>Net Amount</label>
+            <input clrInput type="text" [(ngModel)]="newInv.net_amount" name="net_amount" required />
+        </clr-input-container>
+        <clr-input-container>
+            <label>PO</label>
+            <input clrInput type="text" [(ngModel)]="newInv.po_num" name="po_num" required />
+        </clr-input-container>
+        <clr-input-container>
+            <label>Description</label>
+            <input clrInput type="text" [(ngModel)]="newInv.description" name="description" required />
+        </clr-input-container>        
+        <clr-input-container>
+            <label>Project ID</label>
+            <input clrInput type="text" [(ngModel)]="job.proj_id" name="proj_id" readonly/>
+        </clr-input-container>
+
+
+
+    </form>
+</clr-wizard-page>
+    </clr-wizard>
+    <clr-wizard #editInvWizard [(clrWizardOpen)]="editInvOpen" clrWizardSize="lg" (clrWizardOnFinish)="updateInv()">
+            <clr-wizard-title>New Invoice <span *ngIf="editInv">{{editInv.inv_num}}</span> </clr-wizard-title>
+            Edit Invoice <span *ngIf="editInv">{{editInv.inv_num}}</span>
+            <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+            <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+            <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+            <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+            <clr-wizard-page *ngIf="job && editInv">
+        <ng-template clrPageTitle>Invoice Information</ng-template>
+        <form clrForm horizontal >
+                <div class="toggle-switch">
+                        <input type="checkbox" [(ngModel)]="editInv.is_change_order" name="is_change_order" id="toggle_1">
+                        <label for="toggle_1">Change Order</label>
+                    </div>
+            <clr-input-container>
+                <label>Invoice #</label>
+                <input clrInput type="text" [(ngModel)]="editInv.inv_num" name="inv_num" required />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Name</label>
+                <input clrInput type="text" [(ngModel)]="editInv.line_name" name="line_name" required />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Net Amount</label>
+                <input clrInput type="text" [(ngModel)]="editInv.net_amount" name="net_amount" required />
+            </clr-input-container>
+            <clr-input-container>
+                <label>PO</label>
+                <input clrInput type="text" [(ngModel)]="editInv.po_num" name="po_num" required />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Description</label>
+                <input clrInput type="text" [(ngModel)]="editInv.description" name="description" required />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Project ID</label>
+                <input clrInput type="text" [(ngModel)]="editInv.proj_id" name="proj_id" readonly/>
+            </clr-input-container>
+    
+    
+        </form>
+    </clr-wizard-page>
+        </clr-wizard>
