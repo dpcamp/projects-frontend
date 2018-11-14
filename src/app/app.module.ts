@@ -33,7 +33,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     svc.JobService,
-    svc.InvoiceService
+    svc.InvoiceService,
+    svc.AuthService
   ],
 
   bootstrap: [AppComponent]
