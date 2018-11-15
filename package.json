@@ -26,6 +26,7 @@
     "@webcomponents/custom-elements": "^1.2.0",
     "bootstrap": "^4.0.0-alpha.5",
     "chart.js": "^2.7.2",
+    "classlist.js": "1.1.20150312",
     "core-js": "^2.5.4",
     "primeicons": "^1.0.0-beta.10",
     "primeng": "^6.1.3",
