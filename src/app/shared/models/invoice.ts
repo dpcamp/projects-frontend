@@ -14,6 +14,8 @@ export class Invoice {
     public amount?: number,
     public description?: string,
     public comment?: string,
-    public proj_id?: string
+    public proj_id?: string,
+    public created_by?: string,
+    public updated_by?: string
     ) {}
   }

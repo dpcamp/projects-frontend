@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { JobService, InvoiceService } from '../../shared/services/';
+import  {Subscription } from 'rxjs';
+import { JobService, InvoiceService, AuthService } from '../../shared/services/';
 import { Job, Invoice, Requisition } from '../../shared/models/';
 import {ClrDatagridStringFilterInterface, ClrDatagridSortOrder, ClrWizard} from '@clr/angular';
 import { Chart } from 'chart.js';
@@ -37,51 +38,41 @@ export class JobListComponent implements OnInit {
     descSort = ClrDatagridSortOrder.DESC;
     lgOpen: boolean = false;
     jobOpen: boolean = false;
+    subscription: Subscription;
+    logUser: string;
 
     getJobs(){
         this.jobService.getJobs()
         .subscribe(jobs => {
             this.jobs = jobs.data;
-            console.log(jobs)
-            //  this.totalBudget = jobs.data.map(a => a.budget);
-
-            // console.log(this.totalBudget.reduce((a, b) => a + b));
             });
     }
 
     constructor(
     private jobService: JobService, 
     private invService: InvoiceService,
+    private authService: AuthService
     ) { }
     ngOnInit() {
 
         this.getJobs()
+        this.subscription = this.authService.authUser$
+        .subscribe(
+            un => {
+                this.logUser = un
+            }
+        )
 
     }
     createJob()
     {
+        this.newJob.created_by = this.logUser
         this.jobService.createJob(this.newJob)
         .subscribe(n => {
             console.log(n)
             this.getJobs()
         })
     }
-    createInv()
-    {
-        this.invService.newInv(this.newInv)
-        .subscribe(ninvs => {
-           console.log(ninvs)
-        })
-        this.jobService.updateJob({ 
-            proj_id: this.selectedJob.proj_id,
-            //balance: this.newBalance,
-            //bud_committed: this.newCommitted
-         })
-         .subscribe(newJob => {
-             console.log(this.newBalance)
-             console.log(newJob)
-         })
-        }
     concatProjID() {
             if (this.newJob.job_num && this.newJob.mutual) {
             this.newJob.proj_id = `${this.newJob.job_num}-${this.newJob.mutual}`
@@ -91,25 +82,7 @@ export class JobListComponent implements OnInit {
         this.lgOpen = !this.lgOpen;
     }
     openJobWizard() {
+        
         this.jobOpen =!this.jobOpen;
     }
-/*    
-    getJobBud()
-    {
-        this.jobService.getSingle(this.newInv.proj_id)
-        .subscribe(job => {
-            this.selectedJob = job.data
-            this.newBalance = (this.selectedJob.balance - this.newInv.appr_amount)
-            this.newCommitted = +this.selectedJob.bud_committed + +this.newInv.appr_amount
-           console.log(`balance is ${this.selectedJob.balance}`)
-           console.log(`Approved amount is ${this.newInv.appr_amount}`)
-           this.postJobBud()
-           
-        })
-    }
-    postJobBud()
-    {
-        console.log(`newBalance: ${this.newBalance}`)
-    }
-*/
 }

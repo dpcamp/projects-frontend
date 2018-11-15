@@ -23,3 +23,10 @@ export class AuthUser {
     public is_admin?: boolean
     ) {}
   }
+  export class UserAccess {
+    constructor(
+    public username: string,
+    public access: string
+
+    ) {}
+  }

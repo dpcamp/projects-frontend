@@ -21,8 +21,10 @@ export class Job {
     public gl_desc?: string,
     public uncommitted?: number,
     public expended?: number,
-    public live_balance?: number
-
+    public live_balance?: number,
+    public created_by?: string,
+    public updated_by?: string,
+    public assigned_to?: string
     ) {}
   }
   export class Project {

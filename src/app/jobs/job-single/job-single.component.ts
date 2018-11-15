@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { JobService, InvoiceService } from '../../shared/services';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import  {Subscription } from 'rxjs';
+import { JobService, InvoiceService, AuthService } from '../../shared/services';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Job, Project, Invoice } from '../../shared/models';
+import { Job, Project, Invoice, AuthUser, User } from '../../shared/models';
 import { ClrDatagridStringFilterInterface, ClrWizard } from '@clr/angular';
 import { FLAGS } from '@angular/core/src/render3/interfaces/view';
 
@@ -18,20 +19,25 @@ class JobFilter implements ClrDatagridStringFilterInterface<Job> {
 
 })
 
-export class JobSingleComponent implements OnInit {
+export class JobSingleComponent implements OnInit, OnDestroy{
     @ViewChild('invWizard') wizardLarge: ClrWizard;
     @ViewChild('editInvWizard') editInvWizard: ClrWizard;
+    @ViewChild('editJobWizard') editJobWizard: ClrWizard;
     job: Job;
     project: Project
     private jobFilter = new JobFilter();
     invOpen: boolean = false;
     editInvOpen: boolean = false;
+    editJobOpen: boolean = false;
     selectedInv: Invoice = {};
     newInv: Invoice = {};
     _selected: any[] = [];
     deletedInv: Invoice;
     editInv: Invoice;
-    get selected() {
+    logUser: string;
+    subscription: Subscription;
+
+        get selected() {
         return this._selected;
     }
 
@@ -64,14 +70,23 @@ export class JobSingleComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
     private jobService: JobService,
-    private invService: InvoiceService
+    private invService: InvoiceService,
+    private authService: AuthService
     ) { }
     ngOnInit() {
         this.getJob()
-
+        this.subscription = this.authService.authUser$
+        .subscribe(
+            un => {
+                 this.logUser = un
+                 console.log(this.logUser)
+            }
+        )
+        
     }
     openWizard() {
         this.invOpen = !this.invOpen;
+        console.log(this.logUser)
     }
     editInvWiz(inv: any) {
 
@@ -81,10 +96,17 @@ export class JobSingleComponent implements OnInit {
             console.log(this.editInv)
 
     }
+    editJobWiz() {
+
+        this.editJobOpen = !this.editJobOpen;
+
+
+}
     createInv()
     {
         this.newInv.proj_id = this.job.proj_id
         this.newInv.is_paid = false
+        this.newInv.created_by = this.logUser
         if (!this.newInv.is_change_order){
             this.newInv.is_change_order = false
         }
@@ -106,6 +128,7 @@ export class JobSingleComponent implements OnInit {
         }
     updateInv()
     {
+        this.editInv.updated_by = this.logUser
         this.invService.updateInv(this.editInv)
         .subscribe(einvs => {
             console.log(einvs)
@@ -113,5 +136,23 @@ export class JobSingleComponent implements OnInit {
         })
         this.cleanUp
         }
+        updateJob()
+        {
+            this.job.updated_by = this.logUser
+            this.jobService.updateJob(this.job)
+            .subscribe(uJob => {
+                console.log(uJob)
+                this.getJob()
+            })
+            }
+            concatProjID() {
+                if (this.job.job_num && this.job.mutual) {
+                this.job.proj_id = `${this.job.job_num}-${this.job.mutual}`
+                }
+              }
+        ngOnDestroy() {
+            // prevent memory leak when component destroyed
+            this.subscription.unsubscribe();
+          }
 
 }

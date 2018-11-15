@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {throwError as observableThrowError} from 'rxjs';
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, switchMap, catchError, mergeMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
@@ -10,6 +10,9 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
+
+  private authUserSource = new Subject<string>();
+  authUser$ = this.authUserSource.asObservable();
 
   constructor(
     private http: HttpClient
@@ -44,7 +47,7 @@ export class AuthService {
     // let token   = localStorage.getItem('auth_token');
     // headers.append('Content-Type', 'application/json');
     // headers.append('Authorization', `Bearer ${token}`);
-
+    this.authUserSource.next(un)
     return this.http.get(`${environment.usersUrl}/${un}`)
       .pipe(
         map(res => res),
