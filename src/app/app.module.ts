@@ -11,7 +11,8 @@ import * as svc from '../app/shared/services';
 import * as cpt from '../app';
 import { Routing } from './app.routing';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,11 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: WinAuthInterceptor,
+      multi: true
+    },
     svc.JobService,
     svc.InvoiceService,
     svc.AuthService
