@@ -42,6 +42,7 @@ constructor(
     )
       .subscribe(authUser => {
       this.authUser = authUser
+      console.log(this.authUser)
         if (authUser.is_admin) {
           this.isAdmin = false;
         } else {

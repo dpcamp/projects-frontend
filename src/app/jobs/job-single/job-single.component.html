@@ -89,7 +89,7 @@
                             <clr-dg-row *clrDgItems="let inv of job['invoices']" [clrDgItem]="inv">
                                 <clr-dg-action-overflow>
                                     <button class="action-item" (click)="editInvWiz(inv)">Edit</button>
-                                    <button class="action-item" (click)="deleteInv(inv)">Delete</button>
+                                    <button class="action-item" (click)="confirmInv(inv)">Delete</button>
                                 </clr-dg-action-overflow>
                                 <clr-dg-cell>{{inv.inv_num}}</clr-dg-cell>
                                 <clr-dg-cell>{{inv.inv_date}}</clr-dg-cell>
@@ -253,3 +253,13 @@
     </clr-wizard-page>
 
 </clr-wizard>
+<clr-modal [(clrModalOpen)]="delModal">
+        <h3 class="modal-title">Delete Invoice</h3>
+        <div class="modal-body" *ngIf="deletedInv">
+            <p>Are your sure you want to delete invoice <strong>{{deletedInv.inv_num}}</strong>? This action is permanent and cannot be recovered.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="delModal = false">Cancel</button>
+            <button type="button" class="btn btn-warning" (click)="deleteInv()">Delete</button>
+        </div>
+    </clr-modal>

@@ -29,6 +29,7 @@ export class JobSingleComponent implements OnInit, OnDestroy{
     invOpen: boolean = false;
     editInvOpen: boolean = false;
     editJobOpen: boolean = false;
+    delModal: boolean = false;
     selectedInv: Invoice = {};
     newInv: Invoice = {};
     _selected: any[] = [];
@@ -117,13 +118,17 @@ export class JobSingleComponent implements OnInit, OnDestroy{
         })
         
         }
-    deleteInv(inv: any)
-    {
+    confirmInv(inv: any){
         this.deletedInv = inv
+        this.delModal = !this.delModal
+    }
+    deleteInv()
+    {
         this.invService.deleteInv(this.deletedInv.id)
         .subscribe(dinvs => {
            console.log(dinvs)
            this.getJob()
+           this.delModal = false
         })
         }
     updateInv()
