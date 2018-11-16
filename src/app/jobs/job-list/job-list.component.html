@@ -73,7 +73,7 @@
             </nav>-->
     </div>
 
-    <clr-wizard #wizardlg [(clrWizardOpen)]="lgOpen" clrWizardSize="lg" (clrWizardOnFinish)="createInv()">
+    <!-- <clr-wizard #wizardlg [(clrWizardOpen)]="lgOpen" clrWizardSize="lg" (clrWizardOnFinish)="createInv()">
         <clr-wizard-title>New Invoice</clr-wizard-title>
     
         <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
@@ -121,10 +121,10 @@
                         <input clrInput type="text" [(ngModel)]="newCommitted" name="newCommitted" required />
                     </clr-input-container>
             </form>
-        </clr-wizard-page>
+        </clr-wizard-page> 
     
 
-    </clr-wizard>
+    </clr-wizard>-->
     <clr-wizard #jobWiz [(clrWizardOpen)]="jobOpen" clrWizardSize="lg" (clrWizardOnFinish)="createJob()">
             <clr-wizard-title>New Job</clr-wizard-title>
         

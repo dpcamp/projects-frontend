@@ -34,7 +34,7 @@ export class JobListComponent implements OnInit {
     newInv: Invoice = {};
     newJob: Job = {};
     newRqs: Requisition;
-    private jobFilter = new JobFilter();
+    jobFilter = new JobFilter();
     descSort = ClrDatagridSortOrder.DESC;
     lgOpen: boolean = false;
     jobOpen: boolean = false;
