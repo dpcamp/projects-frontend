@@ -19,7 +19,8 @@ import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
     AppComponent,
     cpt.JobsComponent,
     cpt.JobListComponent,
-    cpt.JobSingleComponent
+    cpt.JobSingleComponent,
+    cpt.LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +41,8 @@ import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
     },
     svc.JobService,
     svc.InvoiceService,
-    svc.AuthService
+    svc.AuthService,
+    svc.AuthGuardService
   ],
 
   bootstrap: [AppComponent]

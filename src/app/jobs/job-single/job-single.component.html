@@ -3,6 +3,7 @@
     <div class="content-area">
         <section class="wrapper" *ngIf="job && project">
                 <h1>{{job.job_title}}</h1>
+                {{logUser}}
                 <span class="label label-info">{{job.job_num}}</span>
                 <span class="label label-info">{{job.mutual}}</span>
                 <div class="row">
@@ -92,7 +93,7 @@
                                     <button class="action-item" (click)="confirmInv(inv)">Delete</button>
                                 </clr-dg-action-overflow>
                                 <clr-dg-cell>{{inv.inv_num}}</clr-dg-cell>
-                                <clr-dg-cell>{{inv.inv_date}}</clr-dg-cell>
+                                <clr-dg-cell>{{inv.inv_date | date:'shortDate' }}</clr-dg-cell>
                                 <clr-dg-cell>{{inv.line_name}}</clr-dg-cell>
                                 <clr-dg-cell>{{inv.po_num}}</clr-dg-cell>
                                 <clr-dg-cell>{{inv.net_amount | currency}}</clr-dg-cell>
@@ -121,6 +122,7 @@
     <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
     <clr-wizard-page *ngIf="job && newInv">
         <ng-template clrPageTitle>Invoice Information</ng-template>
+        {{logUser}}
         <form clrForm horizontal>
             <div class="toggle-switch">
                 <input type="checkbox" [(ngModel)]="newInv.is_change_order" name="is_change_order" id="toggle_1">
@@ -130,6 +132,10 @@
                 <label>Invoice #</label>
                 <input clrInput type="text" [(ngModel)]="newInv.inv_num" name="inv_num" required />
             </clr-input-container>
+            <clr-input-container>
+                    <label>Invoice Date</label>
+                    <input clrInput type="date" [(ngModel)]="newInv.inv_date" name="inv_date" clrDate />
+                </clr-input-container>
             <clr-input-container>
                 <label>Name</label>
                 <input clrInput type="text" [(ngModel)]="newInv.line_name" name="line_name" required />
@@ -157,14 +163,13 @@
     </clr-wizard-page>
 </clr-wizard>
 <clr-wizard #editInvWizard [(clrWizardOpen)]="editInvOpen" clrWizardSize="lg" (clrWizardOnFinish)="updateInv()">
-    <clr-wizard-title>New Invoice <span *ngIf="editInv">{{editInv.inv_num}}</span> </clr-wizard-title>
-    Edit Invoice <span *ngIf="editInv">{{editInv.inv_num}}</span>
+    <clr-wizard-title>Edit Invoice</clr-wizard-title>
     <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
     <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
     <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
     <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
     <clr-wizard-page *ngIf="job && editInv">
-        <ng-template clrPageTitle>Invoice Information</ng-template>
+        <ng-template clrPageTitle>Invoice {{editInv.inv_num}}</ng-template>
         <form clrForm horizontal>
             <div class="toggle-switch">
                 <input type="checkbox" [(ngModel)]="editInv.is_change_order" name="is_change_order" id="toggle_1">
@@ -174,6 +179,10 @@
                 <label>Invoice #</label>
                 <input clrInput type="text" [(ngModel)]="editInv.inv_num" name="inv_num" required />
             </clr-input-container>
+            <clr-input-container>
+                    <label>Invoice Date</label>
+                    <input clrInput type="date" [ngModel]="editInv.inv_date | date:'shortDate'" (ngModelChange)="editInv.inv_date=$event" name="inv_date" clrDate />
+                </clr-input-container>
             <clr-input-container>
                 <label>Name</label>
                 <input clrInput type="text" [(ngModel)]="editInv.line_name" name="line_name" required />

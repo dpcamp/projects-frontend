@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import  {Subscription } from 'rxjs';
 import { JobService, InvoiceService, AuthService } from '../../shared/services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Job, Project, Invoice, AuthUser, User } from '../../shared/models';
 import { ClrDatagridStringFilterInterface, ClrWizard } from '@clr/angular';
 import { FLAGS } from '@angular/core/src/render3/interfaces/view';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 class JobFilter implements ClrDatagridStringFilterInterface<Job> {
     accepts(job: Job, search: string): boolean {
@@ -19,10 +20,11 @@ class JobFilter implements ClrDatagridStringFilterInterface<Job> {
 
 })
 
-export class JobSingleComponent implements OnInit, OnDestroy{
+export class JobSingleComponent implements OnInit, AfterViewInit, OnDestroy{
     @ViewChild('invWizard') wizardLarge: ClrWizard;
     @ViewChild('editInvWizard') editInvWizard: ClrWizard;
     @ViewChild('editJobWizard') editJobWizard: ClrWizard;
+    //@Input() logUser;
     job: Job;
     project: Project
     private jobFilter = new JobFilter();
@@ -35,8 +37,8 @@ export class JobSingleComponent implements OnInit, OnDestroy{
     _selected: any[] = [];
     deletedInv: Invoice;
     editInv: Invoice;
-    logUser: string;
     subscription: Subscription;
+    logUser: string;
 
         get selected() {
         return this._selected;
@@ -53,6 +55,13 @@ export class JobSingleComponent implements OnInit, OnDestroy{
     }
     getJob()
     {
+        console.log('getjob')
+        this.subscription = this.authService.authUser$
+        .subscribe(
+            un => {
+                 this.logUser = un
+                 console.log(`THIS IS ${this.logUser}`)
+            })
         const id = this.route.snapshot.params['job_num'];
 
         this.jobService.getSingle(id)
@@ -76,21 +85,35 @@ export class JobSingleComponent implements OnInit, OnDestroy{
     ) { }
     ngOnInit() {
         this.getJob()
+        
+    }
+    ngAfterViewInit()
+    {
+        console.log(this.logUser)
         this.subscription = this.authService.authUser$
         .subscribe(
             un => {
                  this.logUser = un
-                 console.log(this.logUser)
+                 console.log(`THIS IS ${this.logUser}`)
             }
         )
-        
     }
     openWizard() {
+        this.getCurrentUser()
         this.invOpen = !this.invOpen;
         console.log(this.logUser)
     }
+    getCurrentUser() {
+        this.subscription = this.authService.authUser$
+        .subscribe(
+            un => {
+                 this.logUser = un
+                 console.log(`THIS IS ${this.logUser}`)
+            }
+        )
+    }
     editInvWiz(inv: any) {
-
+            //this.getCurrentUser()
             this.editInvOpen = !this.editInvOpen;
             this.editInv = inv;
             console.log(inv)
@@ -133,6 +156,7 @@ export class JobSingleComponent implements OnInit, OnDestroy{
         }
     updateInv()
     {
+        
         this.editInv.updated_by = this.logUser
         this.invService.updateInv(this.editInv)
         .subscribe(einvs => {

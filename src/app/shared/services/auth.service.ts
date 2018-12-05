@@ -6,24 +6,26 @@ import { Observable, Subject } from 'rxjs';
 import { map, switchMap, catchError, mergeMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
+import { UserAccess } from '../models/index'
+
 //import { LoggedUser } from '../models/logged-user'
 
 @Injectable()
 export class AuthService {
-
   private authUserSource = new Subject<string>();
   authUser$ = this.authUserSource.asObservable();
-
+  loggedIn: boolean
   constructor(
     private http: HttpClient
   ) {
     // look at localStorage to check if the user is logged in
     // this.loggedIn = !!localStorage.getItem('auth_token');
   }
-
+  
   /**
    * Check if the user is logged in
-  isLoggedIn() {
+  */
+  isLoggedIn():boolean {
     return this.loggedIn;
   }
 
@@ -40,15 +42,25 @@ export class AuthService {
  //         this.loggedIn = true;
 
   }
+    /**
+   * Log the user in
+   */
+  auth(un: string): Observable<UserAccess> {
+    return this.http.get<UserAccess>(`${environment.usersUrl}/${un}`)
+        .pipe(
+        map(res => res),
+        tap(res => this.loggedIn = res.authenticated)
+        ,
+      // .map(users => users.map(this.toUser))
+       catchError(this.handleError)
+    )
+          
+
+  }
 
   getUser(un: string): Observable<any> {
-    // attaching a token
-    // let headers = new Headers();
-    // let token   = localStorage.getItem('auth_token');
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('Authorization', `Bearer ${token}`);
     this.authUserSource.next(un)
-    return this.http.get(`${environment.usersUrl}/${un}`)
+    return this.http.get(`${environment.ADUrl}/${un}`)
       .pipe(
         map(res => res),
         catchError(this.handleError)

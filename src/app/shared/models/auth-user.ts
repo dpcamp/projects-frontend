@@ -25,6 +25,7 @@ export class AuthUser {
   }
   export class UserAccess {
     constructor(
+    public authenticated: boolean,
     public username: string,
     public access: string
 

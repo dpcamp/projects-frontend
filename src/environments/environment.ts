@@ -4,10 +4,11 @@
 
 export const environment = {
   production: false,
+  usersUrl: 'http://192.168.235.96:3000/api/users',
   jobsUrl: 'http://192.168.235.96:3000/api/jobs',
   invsUrl: 'http://192.168.235.96:3000/api/invoices',
   authUrl: 'http://GRF-MISDEV:8888/',
-  usersUrl: 'http://GRF-MISDEV:3000/api/users',
+  ADUrl: 'http://GRF-MISDEV:3000/api/users'
 };
 
 /*
