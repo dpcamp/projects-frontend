@@ -42,7 +42,8 @@ import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
     svc.JobService,
     svc.InvoiceService,
     svc.AuthService,
-    svc.AuthGuardService
+    svc.AuthGuardService,
+    svc.RequisitionService
   ],
 
   bootstrap: [AppComponent]

@@ -39,7 +39,7 @@ export class JobListComponent implements OnInit {
     lgOpen: boolean = false;
     jobOpen: boolean = false;
     subscription: Subscription;
-    logUser: string;
+    logUser: string = localStorage.getItem('username');
 
     getJobs(){
         this.jobService.getJobs()
@@ -51,21 +51,15 @@ export class JobListComponent implements OnInit {
     constructor(
     private jobService: JobService, 
     private invService: InvoiceService,
-    private authService: AuthService
+    public authService: AuthService
     ) { }
     ngOnInit() {
-
         this.getJobs()
-        this.subscription = this.authService.authUser$
-        .subscribe(
-            un => {
-                this.logUser = un
-            }
-        )
 
     }
     createJob()
     {
+
         this.newJob.created_by = this.logUser
         this.jobService.createJob(this.newJob)
         .subscribe(n => {
@@ -79,10 +73,11 @@ export class JobListComponent implements OnInit {
             }
           }
     openWizard() {
+
         this.lgOpen = !this.lgOpen;
     }
     openJobWizard() {
-        
+       
         this.jobOpen =!this.jobOpen;
     }
 }

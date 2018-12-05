@@ -15,7 +15,7 @@ export class JobsComponent implements OnInit{
   userAccess: UserAccess;
   isAdmin = false;
   subscription: Subscription;
-  logUser: string = '';
+  logUser: string;
 
 constructor(
   private authSvc: AuthService

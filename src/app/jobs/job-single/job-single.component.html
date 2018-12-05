@@ -3,9 +3,9 @@
     <div class="content-area">
         <section class="wrapper" *ngIf="job && project">
                 <h1>{{job.job_title}}</h1>
-                {{logUser}}
                 <span class="label label-info">{{job.job_num}}</span>
                 <span class="label label-info">{{job.mutual}}</span>
+                <span class="label label-info">{{logUser}}</span>
                 <div class="row">
                         <div class="col-lg-5 col-md-8 col-sm-12 col-xs-12">
                             <div class="card">
@@ -44,21 +44,23 @@
                             <clr-dg-column>Line</clr-dg-column>
                             <clr-dg-column>Name</clr-dg-column>
                             <clr-dg-column>Description</clr-dg-column>
-                            <clr-dg-column>Location</clr-dg-column>
+                            <clr-dg-column>Budget Year</clr-dg-column>
                             <clr-dg-column>GL Code</clr-dg-column>
                             <clr-dg-column>PO #</clr-dg-column>
                             <clr-dg-column>Amount</clr-dg-column>
 
-                            <clr-dg-row *clrDgItems="let req of job['requisitions']">
-
-                                <clr-dg-cell>{{req.req_num}}</clr-dg-cell>
-                                <clr-dg-cell>{{req.line_num}}</clr-dg-cell>
-                                <clr-dg-cell>{{req.line_name}}</clr-dg-cell>
-                                <clr-dg-cell>{{req.req_desc}}</clr-dg-cell>
-                                <clr-dg-cell>{{req.location}}</clr-dg-cell>
-                                <clr-dg-cell>{{req.gl_code}}</clr-dg-cell>
-                                <clr-dg-cell>{{req.po_num}}</clr-dg-cell>
-                                <clr-dg-cell>{{req.amount | currency}}</clr-dg-cell>
+                            <clr-dg-row *clrDgItems="let reqs of job['requisitions']" [clrDgItem]="reqs">
+                                <clr-dg-action-overflow>
+                                    <button class="action-item" (click)="openReqModal(reqs)">Add Year</button>
+                                </clr-dg-action-overflow>
+                                <clr-dg-cell>{{reqs.req_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{reqs.line_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{reqs.line_name}}</clr-dg-cell>
+                                <clr-dg-cell>{{reqs.req_desc}}</clr-dg-cell>
+                                <clr-dg-cell>{{reqs.budget_year}}</clr-dg-cell>
+                                <clr-dg-cell>{{reqs.gl_code}}</clr-dg-cell>
+                                <clr-dg-cell>{{reqs.po_num}}</clr-dg-cell>
+                                <clr-dg-cell>{{reqs.amount | currency}}</clr-dg-cell>
                             </clr-dg-row>
 
                             <clr-dg-footer>
@@ -156,7 +158,10 @@
                 <label>Project ID</label>
                 <input clrInput type="text" [(ngModel)]="job.proj_id" name="proj_id" readonly />
             </clr-input-container>
-
+            <clr-input-container>
+                <label>Created By</label>
+                <input clrInput type="text" [(ngModel)]="newInv.created_by" name="created_by" value="logUser" readonly />
+            </clr-input-container>
 
 
         </form>
@@ -270,5 +275,15 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-outline" (click)="delModal = false">Cancel</button>
             <button type="button" class="btn btn-warning" (click)="deleteInv()">Delete</button>
+        </div>
+    </clr-modal>
+<clr-modal [(clrModalOpen)]="reqModal">
+        <h3 class="modal-title">Set Budget Year</h3>
+        <div class="modal-body" *ngIf="selectedReq">
+            <p>Are your sure you want to delete invoice <strong>{{selectedReq.id}}</strong>? This action is permanent and cannot be recovered.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="reqModal = false">Cancel</button>
+            <button type="button" class="btn btn-warning" (click)="reqModal = false">Delete</button>
         </div>
     </clr-modal>

@@ -60,11 +60,16 @@ export class AuthService {
 
   getUser(un: string): Observable<any> {
     this.authUserSource.next(un)
+    localStorage.setItem('username', un)
     return this.http.get(`${environment.ADUrl}/${un}`)
       .pipe(
         map(res => res),
         catchError(this.handleError)
       )
+  }
+  returnUser(): String {
+    return localStorage.getItem('username');
+      
   }
 
   /**

@@ -7,6 +7,7 @@ export const environment = {
   usersUrl: 'http://192.168.235.96:3000/api/users',
   jobsUrl: 'http://192.168.235.96:3000/api/jobs',
   invsUrl: 'http://192.168.235.96:3000/api/invoices',
+  reqsUrl: 'http://192.168.235.96:3000/api/requisitions',
   authUrl: 'http://GRF-MISDEV:8888/',
   ADUrl: 'http://GRF-MISDEV:3000/api/users'
 };

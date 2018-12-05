@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import  {Subscription } from 'rxjs';
-import { JobService, InvoiceService, AuthService } from '../../shared/services';
+import { JobService, InvoiceService, AuthService, RequisitionService } from '../../shared/services';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Job, Project, Invoice, AuthUser, User } from '../../shared/models';
+import { Job, Requisition, Project, Invoice, AuthUser, User } from '../../shared/models';
 import { ClrDatagridStringFilterInterface, ClrWizard } from '@clr/angular';
 import { FLAGS } from '@angular/core/src/render3/interfaces/view';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
@@ -20,11 +20,10 @@ class JobFilter implements ClrDatagridStringFilterInterface<Job> {
 
 })
 
-export class JobSingleComponent implements OnInit, OnDestroy{
+export class JobSingleComponent implements OnInit{
     @ViewChild('invWizard') wizardLarge: ClrWizard;
     @ViewChild('editInvWizard') editInvWizard: ClrWizard;
     @ViewChild('editJobWizard') editJobWizard: ClrWizard;
-    //@Input() logUser;
     job: Job;
     project: Project
     private jobFilter = new JobFilter();
@@ -32,13 +31,17 @@ export class JobSingleComponent implements OnInit, OnDestroy{
     editInvOpen: boolean = false;
     editJobOpen: boolean = false;
     delModal: boolean = false;
+    reqModal: boolean = false;
     selectedInv: Invoice = {};
+    selectedReq: Requisition = {};
     newInv: Invoice = {};
     _selected: any[] = [];
     deletedInv: Invoice;
     editInv: Invoice;
     subscription: Subscription;
-    logUser: string;
+    logUser: string = localStorage.getItem('username');
+    streamUser: string;
+    routeUser: string;
 
         get selected() {
         return this._selected;
@@ -56,12 +59,6 @@ export class JobSingleComponent implements OnInit, OnDestroy{
     getJob()
     {
         console.log('getjob')
-        this.subscription = this.authService.authUser$
-        .subscribe(
-            un => {
-                 this.logUser = un
-                 console.log(`THIS IS ${this.logUser}`)
-            })
         const id = this.route.snapshot.params['job_num'];
 
         this.jobService.getSingle(id)
@@ -81,42 +78,24 @@ export class JobSingleComponent implements OnInit, OnDestroy{
         private router: Router,
     private jobService: JobService,
     private invService: InvoiceService,
-    private authService: AuthService
+    public authService: AuthService,
+    public reqsService: RequisitionService
     ) { }
     ngOnInit() {
         this.getJob()
-        console.log(this.logUser)
-        this.subscription = this.authService.authUser$
-        .subscribe(
-            un => {
-                 this.logUser = un
-                 console.log(`THIS IS ${this.logUser}`)
-            }
-        )
-        
-    }
-    openWizard() {
-        this.getCurrentUser()
-        this.invOpen = !this.invOpen;
-        console.log(this.logUser)
-    }
-    getCurrentUser() {
-        this.subscription = this.authService.authUser$
-        .subscribe(
-            un => {
-                 this.logUser = un
-                 console.log(`THIS IS ${this.logUser}`)
-            }
-        )
-    }
-    editInvWiz(inv: any) {
-            //this.getCurrentUser()
-            this.editInvOpen = !this.editInvOpen;
-            this.editInv = inv;
-            console.log(inv)
-            console.log(this.editInv)
+
 
     }
+    openWizard() {
+        this.invOpen = !this.invOpen;
+    }
+    editInvWiz(inv: any) {
+            
+            this.editInvOpen = !this.editInvOpen;
+            this.editInv = inv;
+
+    }
+
     editJobWiz() {
 
         this.editJobOpen = !this.editJobOpen;
@@ -141,6 +120,20 @@ export class JobSingleComponent implements OnInit, OnDestroy{
     confirmInv(inv: any){
         this.deletedInv = inv
         this.delModal = !this.delModal
+    }
+    openReqModal(reqs: any){
+    this.reqModal = !this.reqModal
+    this.selectedReq = reqs
+    }
+    updateReqYear(){
+        
+       
+        this.reqsService.updateReq(this.selectedReq)
+        .subscribe(ureq => {
+            console.log(ureq)
+            this.getJob()
+            this.reqModal = false
+        })
     }
     deleteInv()
     {
@@ -176,9 +169,5 @@ export class JobSingleComponent implements OnInit, OnDestroy{
                 this.job.proj_id = `${this.job.job_num}-${this.job.mutual}`
                 }
               }
-        ngOnDestroy() {
-            // prevent memory leak when component destroyed
-            this.subscription.unsubscribe();
-          }
-
+    
 }
