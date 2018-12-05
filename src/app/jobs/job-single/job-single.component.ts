@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import  {Subscription } from 'rxjs';
 import { JobService, InvoiceService, AuthService } from '../../shared/services';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,7 +20,7 @@ class JobFilter implements ClrDatagridStringFilterInterface<Job> {
 
 })
 
-export class JobSingleComponent implements OnInit, AfterViewInit, OnDestroy{
+export class JobSingleComponent implements OnInit, OnDestroy{
     @ViewChild('invWizard') wizardLarge: ClrWizard;
     @ViewChild('editInvWizard') editInvWizard: ClrWizard;
     @ViewChild('editJobWizard') editJobWizard: ClrWizard;
@@ -85,10 +85,6 @@ export class JobSingleComponent implements OnInit, AfterViewInit, OnDestroy{
     ) { }
     ngOnInit() {
         this.getJob()
-        
-    }
-    ngAfterViewInit()
-    {
         console.log(this.logUser)
         this.subscription = this.authService.authUser$
         .subscribe(
@@ -97,6 +93,7 @@ export class JobSingleComponent implements OnInit, AfterViewInit, OnDestroy{
                  console.log(`THIS IS ${this.logUser}`)
             }
         )
+        
     }
     openWizard() {
         this.getCurrentUser()
