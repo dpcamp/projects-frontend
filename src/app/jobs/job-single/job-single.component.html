@@ -50,8 +50,8 @@
 
                             <clr-dg-row *clrDgItems="let reqs of job['requisitions']" [clrDgItem]="reqs">
                                 <clr-dg-action-overflow>
-                                        <button class="action-item" (click)="setReqYear(reqs)">Add To This Year</button>
-                                    <button class="action-item" (click)="openReqModal(reqs)">Change Year</button>
+                                        <button class="action-item" (click)="setReqYear(reqs)">Add To Budget Year</button>
+                                    <button class="action-item" (click)="openReqModal(reqs)">Change Budget Year</button>
                                                                     </clr-dg-action-overflow>
                                 <clr-dg-cell>{{reqs.req_num}}</clr-dg-cell>
                                 <clr-dg-cell>{{reqs.line_num}}</clr-dg-cell>
@@ -76,9 +76,10 @@
             </clr-tab>
             <clr-tab>
                 <button clrTabLink id="invoices">Invoices</button>
-                <button style="margin-top: 10px" class="btn btn-sm" (click)="openWizard()">Add Invoice</button>
+                
 
                 <clr-tab-content *clrIfActive="true">
+                        <button style="margin-top: 10px" class="btn btn-sm" (click)="openWizard()">Add Invoice</button>
                     <section class="wrapper" *ngIf="job">
                         <clr-datagrid style="margin-top: -15px">
                             <clr-dg-column>Invoice #</clr-dg-column>
