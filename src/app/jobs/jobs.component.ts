@@ -37,7 +37,7 @@ constructor(
         console.log(res)
         if (res.is_admin === true) {
           this.isAdmin = true;
-          console.log(this.isAdmin)
+          //console.log(this.isAdmin)
         }
       }),
       mergeMap(dataresults => of(dataresults)),
@@ -46,7 +46,7 @@ constructor(
       .subscribe(authUser => {
       this.authUser = authUser
       this.logUser = authUser.user_name
-      console.log(`HELLO! ${this.authUser.user_name}`)
+      //console.log(`HELLO! ${this.authUser.user_name}`)
       this.authenticate(authUser.user_name)
 
     })
