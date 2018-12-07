@@ -58,24 +58,21 @@ export class JobSingleComponent implements OnInit{
     }
     getJob()
     {
-        console.log('getjob')
         const id = this.route.snapshot.params['job_num'];
-
-        this.jobService.getSingle(id)
+        const year = this.route.snapshot.queryParams['year']
+        this.jobService.getSingle(id,year)
         .subscribe(job => {
             this.job = job.data;
-            console.log(job);
         });
-        this.jobService.getBudget(id)
+        this.jobService.getBudget(id,year)
         .subscribe(project => {
             this.project = project.data
-            console.log(project);
                 })
     }
 
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
+    private route: ActivatedRoute,
+    private router: Router,
     private jobService: JobService,
     private invService: InvoiceService,
     public authService: AuthService,
@@ -91,8 +88,8 @@ export class JobSingleComponent implements OnInit{
     }
     editInvWiz(inv: any) {
             
-            this.editInvOpen = !this.editInvOpen;
-            this.editInv = inv;
+        this.editInvOpen = !this.editInvOpen;
+        this.editInv = inv;
 
     }
 
@@ -104,7 +101,7 @@ export class JobSingleComponent implements OnInit{
 }
     createInv()
     {
-        this.newInv.proj_id = this.job.proj_id
+        this.newInv.proj_id = this.job.id
         this.newInv.is_paid = false
         this.newInv.created_by = this.logUser
         if (!this.newInv.is_change_order){
@@ -124,13 +121,17 @@ export class JobSingleComponent implements OnInit{
     openReqModal(reqs: any){
     this.reqModal = !this.reqModal
     this.selectedReq = reqs
+        }
+    setReqYear(reqs: any){
+        this.selectedReq = reqs
+        this.selectedReq.budget_year = this.job.year
+        this.reqsService.updateReq(this.selectedReq)
+        .subscribe(ureq => ureq)
     }
-    updateReqYear(){
+    changeReqYear(){
         
-       
         this.reqsService.updateReq(this.selectedReq)
         .subscribe(ureq => {
-            console.log(ureq)
             this.getJob()
             this.reqModal = false
         })
@@ -150,7 +151,6 @@ export class JobSingleComponent implements OnInit{
         this.editInv.updated_by = this.logUser
         this.invService.updateInv(this.editInv)
         .subscribe(einvs => {
-            console.log(einvs)
             this.getJob()
         })
         this.cleanUp
@@ -160,7 +160,6 @@ export class JobSingleComponent implements OnInit{
             this.job.updated_by = this.logUser
             this.jobService.updateJob(this.job)
             .subscribe(uJob => {
-                console.log(uJob)
                 this.getJob()
             })
             }

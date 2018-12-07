@@ -20,7 +20,7 @@
                         <clr-dg-column [clrDgField]="'live_uncommitted'" [clrDgSortOrder]="descSort">Uncommitted</clr-dg-column>
                     
                         <clr-dg-row *clrDgItems="let job of jobs" [clrDgItem]="job">
-                            <clr-dg-cell><a [routerLink]="['/jobs', job.proj_id]">{{job.job_num}}</a></clr-dg-cell>
+                            <clr-dg-cell><a [routerLink]="['/jobs', job.proj_id]" [queryParams]="{year: job.year}">{{job.job_num}}</a></clr-dg-cell>
                             <clr-dg-cell>{{job.work_center}}</clr-dg-cell>
                             <clr-dg-cell>{{job.mutual}}</clr-dg-cell>
                             <clr-dg-cell>{{job.job_title}}</clr-dg-cell>

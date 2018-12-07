@@ -22,7 +22,10 @@ export class RequisitionService {
    */
 
   updateReq(reqs: Requisition): Observable<Requisition> {
-    return this.httpClient.put<Requisition>(`${this.reqsUrl}/${reqs.id}`, reqs.budget_year)
+    return this.httpClient.put<Requisition>(`${this.reqsUrl}/req_num/${reqs.req_num}`,
+    {
+      "budget_year": reqs.budget_year
+    })
     .pipe(
       map(res => res),
       catchError(this.handleError)

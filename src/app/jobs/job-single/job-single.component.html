@@ -5,7 +5,6 @@
                 <h1>{{job.job_title}}</h1>
                 <span class="label label-info">{{job.job_num}}</span>
                 <span class="label label-info">{{job.mutual}}</span>
-                <span class="label label-info">{{logUser}}</span>
                 <div class="row">
                         <div class="col-lg-5 col-md-8 col-sm-12 col-xs-12">
                             <div class="card">
@@ -51,8 +50,9 @@
 
                             <clr-dg-row *clrDgItems="let reqs of job['requisitions']" [clrDgItem]="reqs">
                                 <clr-dg-action-overflow>
-                                    <button class="action-item" (click)="openReqModal(reqs)">Add Year</button>
-                                </clr-dg-action-overflow>
+                                        <button class="action-item" (click)="setReqYear(reqs)">Add To This Year</button>
+                                    <button class="action-item" (click)="openReqModal(reqs)">Change Year</button>
+                                                                    </clr-dg-action-overflow>
                                 <clr-dg-cell>{{reqs.req_num}}</clr-dg-cell>
                                 <clr-dg-cell>{{reqs.line_num}}</clr-dg-cell>
                                 <clr-dg-cell>{{reqs.line_name}}</clr-dg-cell>
@@ -124,7 +124,6 @@
     <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
     <clr-wizard-page *ngIf="job && newInv">
         <ng-template clrPageTitle>Invoice Information</ng-template>
-        {{logUser}}
         <form clrForm horizontal>
             <div class="toggle-switch">
                 <input type="checkbox" [(ngModel)]="newInv.is_change_order" name="is_change_order" id="toggle_1">
@@ -280,10 +279,21 @@
 <clr-modal [(clrModalOpen)]="reqModal">
         <h3 class="modal-title">Set Budget Year</h3>
         <div class="modal-body" *ngIf="selectedReq">
-            <p>Are your sure you want to delete invoice <strong>{{selectedReq.id}}</strong>? This action is permanent and cannot be recovered.</p>
+            <p>Set the budget year for Req# <strong>{{selectedReq.req_num}}</strong>? This action is permanent and cannot be recovered.</p>
+            <form clrForm>
+                <clr-select-container>
+                    <label>Budget Year</label>
+                    <select clrSelect [(ngModel)]="selectedReq.budget_year" name="budget_year" >
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2016</option>
+                    </select>
+                </clr-select-container>
+            </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline" (click)="reqModal = false">Cancel</button>
-            <button type="button" class="btn btn-warning" (click)="reqModal = false">Delete</button>
+            <button type="button" class="btn btn-primary" (click)="changeReqYear()">Update</button>
         </div>
     </clr-modal>

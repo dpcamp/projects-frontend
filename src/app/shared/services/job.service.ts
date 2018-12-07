@@ -30,8 +30,8 @@ export class JobService {
    * Get single job.
    * Takes job_num
    */
-  getSingle(id: string): Observable<any> {
-    return this.httpClient.get(`${this.jobsUrl}/proj_id/${id}`)
+  getSingle(id: string, year: string): Observable<any> {
+    return this.httpClient.get(`${this.jobsUrl}/proj_id/${id}?year=${year}`)
       .pipe(
         map(res => res),
       // .map(users => users.map(this.toUser))
@@ -79,8 +79,8 @@ export class JobService {
    * gets single project financial data.
    * Takes proj_id
    */
-  getBudget(id: string): Observable<any> {
-    return this.httpClient.get(`${this.jobsUrl}/proj_budget/${id}`)
+  getBudget(id: string, year: string): Observable<any> {
+    return this.httpClient.get(`${this.jobsUrl}/proj_budget/${id}?year=${year}`)
       .pipe(
         map(res => res),
       // .map(users => users.map(this.toUser))
