@@ -1,0 +1,33 @@
+<div class="content-container">
+    <div class="content-area">
+            <h1>All Invoices</h1>
+        <clr-datagrid>
+                <clr-dg-column>
+                    Invoice #
+                   
+                </clr-dg-column>
+                <clr-dg-column>Name</clr-dg-column>
+                <clr-dg-column>Net Amount</clr-dg-column>
+                <clr-dg-column>Approved Amount</clr-dg-column>
+                <clr-dg-column>PO Number</clr-dg-column>
+                <clr-dg-column>Status</clr-dg-column>
+
+            
+                <clr-dg-row *clrDgItems="let inv of invs" [clrDgItem]="inv">
+                    <clr-dg-cell>{{inv.inv_num}}</clr-dg-cell>
+                    <clr-dg-cell>{{inv.line_name}}</clr-dg-cell>
+                    <clr-dg-cell>{{inv.net_amount | currency}}</clr-dg-cell>
+                    <clr-dg-cell>{{inv.appr_amount | currency}}</clr-dg-cell>
+                    <clr-dg-cell>{{inv.budget | currency}}</clr-dg-cell>
+                </clr-dg-row>
+            
+                <clr-dg-footer>
+                        <clr-dg-pagination #pagination [clrDgPageSize]="15">
+                            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                            of {{pagination.totalItems}} Invoices
+                            </clr-dg-pagination>
+                        
+                    </clr-dg-footer>
+            </clr-datagrid>
+    </div>
+</div>

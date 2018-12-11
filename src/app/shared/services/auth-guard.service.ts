@@ -8,7 +8,7 @@ import { User, AuthUser, UserAccess } from '../models';
 @Injectable()
 
 export class AuthGuardService implements CanActivate {
-  authUser: AuthUser;
+  authUser: User;
   userAccess: UserAccess;
   loggedIn = false;
   constructor(
@@ -17,10 +17,14 @@ export class AuthGuardService implements CanActivate {
     private authSvc: AuthService
     ) 
     {}
-  canActivate(): Observable<boolean> {
-    const subject = new Subject<boolean>();
-
-    this.authSvc.login()
+  canActivate(): boolean {
+    if(localStorage.getItem('isLoggedIn') == 'true')
+    {console.log('THIS IS TRUE')
+    console.log(this.authSvc.isLoggedIn())
+    return true}
+    else {
+      
+      this.authSvc.login()
     .pipe(
       mergeMap(dataresults => of(dataresults)),
     switchMap(userInfo => this.authSvc.getUser(userInfo.user_name))
@@ -31,16 +35,19 @@ export class AuthGuardService implements CanActivate {
       this.authSvc.auth(authUser.user_name)
       .subscribe(res => {
         if (this.authSvc.isLoggedIn() === true) {
-          subject.next(true);
+          return true;
         }
         else {
           this.router.navigate(['/login'])
-          subject.next(false);
+          return false;
         }
       })
       
     })
-    console.log(this.authSvc.isLoggedIn())
-    return subject.asObservable();
+    }
+    
+    
+    //console.log(subject.asObservable())
+    //return subject.asObservable();
   }
 }

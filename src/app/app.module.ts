@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
-import { ClarityModule, ClrFormsNextModule } from '@clr/angular';
+import { ClarityModule} from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as svc from '../app/shared/services';
 import * as cpt from '../app';
@@ -20,13 +20,15 @@ import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
     cpt.JobsComponent,
     cpt.JobListComponent,
     cpt.JobSingleComponent,
-    cpt.LoginComponent
+    cpt.LoginComponent,
+    cpt.HeaderComponent,
+    cpt.InvoiceListComponent,
+    cpt.RequisitionListComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     ClarityModule,
-    ClrFormsNextModule,
     BrowserAnimationsModule,
     Routing,
     FormsModule,

@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map, switchMap, catchError, mergeMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
-import { UserAccess } from '../models/index'
+import { UserAccess, User } from '../models/index'
 
 //import { LoggedUser } from '../models/logged-user'
 
@@ -26,8 +26,16 @@ export class AuthService {
    * Check if the user is logged in
   */
   isLoggedIn():boolean {
+    if (this.loggedIn === true){
+      localStorage.setItem('isLoggedIn', 'true');
     return this.loggedIn;
+    } else {
+      localStorage.setItem('isLoggedIn', 'false');
+      return this.loggedIn;
+    }
+      
   }
+  
 
   /**
    * Log the user in
@@ -58,12 +66,16 @@ export class AuthService {
 
   }
 
-  getUser(un: string): Observable<any> {
+  getUser(un: string): Observable<User> {
     this.authUserSource.next(un)
     localStorage.setItem('username', un)
-    return this.http.get(`${environment.ADUrl}/${un}`)
+    return this.http.get<User>(`${environment.ADUrl}/${un}`)
       .pipe(
         map(res => res),
+        tap(res => {
+          localStorage.setItem('firstName', res.first_name)
+          localStorage.setItem('lastName', res.last_name)
+        }),
         catchError(this.handleError)
       )
   }

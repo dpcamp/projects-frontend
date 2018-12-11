@@ -26,6 +26,16 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'invoices',
+        component: cpt.InvoiceListComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'requisitions',
+        component: cpt.RequisitionListComponent,
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'login',
         component: cpt.LoginComponent,
         pathMatch: 'full'

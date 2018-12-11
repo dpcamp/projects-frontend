@@ -15,8 +15,7 @@ class JobFilter implements ClrDatagridStringFilterInterface<Job> {
 
 @Component({
     selector: 'app-job-single',
-    templateUrl: 'job-single.component.html',
-    styleUrls: ['job-single.component.scss']
+    templateUrl: 'job-single.component.html'
 
 })
 

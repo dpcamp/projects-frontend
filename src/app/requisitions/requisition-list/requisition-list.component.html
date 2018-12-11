@@ -1,0 +1,80 @@
+<div class="content-container">
+    <div class="content-area">
+            <h1>All Requisitions</h1>
+        <clr-datagrid>
+                <clr-dg-column>
+                    Requisition #
+                   
+                </clr-dg-column>
+                <clr-dg-column>Description</clr-dg-column>
+                <clr-dg-column>Line Number</clr-dg-column>
+                <clr-dg-column>Line Name</clr-dg-column>
+                <clr-dg-column>PO Number</clr-dg-column>
+                <clr-dg-column>Project</clr-dg-column>
+                <clr-dg-column>Amount</clr-dg-column>
+                <clr-dg-column>Budget Year</clr-dg-column>
+
+            
+                <clr-dg-row *clrDgItems="let req of reqs" [clrDgItem]="req">
+                    <clr-dg-cell><a [routerLink]="" (click)="editReqWiz(req)">{{req.req_num}}</a></clr-dg-cell>
+                    <clr-dg-cell>{{req.req_desc}}</clr-dg-cell>
+                    <clr-dg-cell>{{req.line_num}}</clr-dg-cell>
+                    <clr-dg-cell>{{req.line_name}}</clr-dg-cell>
+                    <clr-dg-cell>{{req.po_num}}</clr-dg-cell>
+                    <clr-dg-cell>{{req.proj_id}}</clr-dg-cell>
+                    <clr-dg-cell>{{req.amount | currency}}</clr-dg-cell>
+                    <clr-dg-cell>{{req.budget_year}}</clr-dg-cell>
+                </clr-dg-row>
+            
+                <clr-dg-footer>
+                        <clr-dg-pagination #pagination [clrDgPageSize]="15">
+                            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                            of {{pagination.totalItems}} Requisitions
+                            </clr-dg-pagination>
+                        
+                    </clr-dg-footer>
+            </clr-datagrid>
+    </div>
+</div>
+
+<clr-wizard #editReqWizard [(clrWizardOpen)]="editReqOpen" clrWizardSize="lg" (clrWizardOnFinish)="updateReq()">
+    <clr-wizard-title>Edit Invoice</clr-wizard-title>
+    <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+    <clr-wizard-page *ngIf="editReq">
+        <ng-template clrPageTitle>Requisition {{editReq.req_num}} ({{editReq.req_desc}})</ng-template>
+        <form clrForm horizontal>
+            <clr-input-container>
+                <label>Line Number</label>
+                <input clrInput type="text" [(ngModel)]="editReq.line_num" name="line_num" readonly />
+            </clr-input-container>
+            <clr-input-container>
+                    <label>Line Name</label>
+                    <input clrInput type="text" [ngModel]="editReq.line_name"  name="line_name" readonly />
+                </clr-input-container>
+            <clr-input-container>
+                <label>PO Number</label>
+                <input clrInput type="text" [(ngModel)]="editReq.po_num" name="po_num"  readonly/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>GL Number</label>
+                <input clrInput type="text" [(ngModel)]="editReq.gl_code" name="gl_code" readonly />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Project ID</label>
+                <input clrInput type="text" [(ngModel)]="editReq.proj_id" name="proj_id" required />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Amount</label>
+                <input clrInput type="text" [(ngModel)]="editReq.amount" name="amount" readonly />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Budget Year</label>
+                <input clrInput type="text" [(ngModel)]="editReq.budget_year" name="budget_year" required />
+            </clr-input-container>
+
+        </form>
+    </clr-wizard-page>
+</clr-wizard>

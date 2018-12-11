@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import  {Subscription } from 'rxjs';
 import { JobService, InvoiceService, AuthService } from '../../shared/services/';
 import { Job, Invoice, Requisition } from '../../shared/models/';
-import {ClrDatagridStringFilterInterface, ClrDatagridSortOrder, ClrWizard} from '@clr/angular';
+import {ClrDatagridStringFilterInterface, ClrDatagridSortOrder, ClrWizard, ClrDatagridFilter} from '@clr/angular';
 import { Chart } from 'chart.js';
+import { PopoverOptions } from '@clr/angular/popover/common/popover-options.interface';
+
 
 
 class JobFilter implements ClrDatagridStringFilterInterface<Job> {
@@ -34,6 +36,7 @@ export class JobListComponent implements OnInit {
     newInv: Invoice = {};
     newJob: Job = {};
     newRqs: Requisition;
+    //@ViewChild('leftJobFilter') leftJobFilter: C;
     jobFilter = new JobFilter();
     descSort = ClrDatagridSortOrder.DESC;
     lgOpen: boolean = false;
@@ -54,6 +57,7 @@ export class JobListComponent implements OnInit {
     public authService: AuthService
     ) { }
     ngOnInit() {
+
         this.getJobs()
 
     }
