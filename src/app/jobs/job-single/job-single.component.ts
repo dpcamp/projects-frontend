@@ -41,6 +41,7 @@ export class JobSingleComponent implements OnInit{
     logUser: string = localStorage.getItem('username');
     streamUser: string;
     routeUser: string;
+    yearList: any[] = []
 
         get selected() {
         return this._selected;
@@ -79,6 +80,9 @@ export class JobSingleComponent implements OnInit{
     ) { }
     ngOnInit() {
         this.getJob()
+        if (this.yearList.length == 0){
+            this.yearList = this.jobService.getYears();
+            }
 
 
     }

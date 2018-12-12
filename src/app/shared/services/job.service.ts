@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class JobService {
     private jobsUrl: string = environment.jobsUrl;
+    today: Date =  new Date()
 
     constructor(
         private http: Http,
@@ -87,7 +88,24 @@ export class JobService {
        catchError(this.handleError)
     );
 }
+getMonth(): any{
+  
+  let thisMonth = this.today.getMonth() + 1
+  return thisMonth
+}
+getYears(): any[]{
 
+  let thisYear = this.today.getFullYear()
+
+  let firstYear = 2015
+  const yearList: any[] = []
+  for(let i = thisYear + 1; i >= firstYear; i--){
+      
+      yearList.push(i)
+  }
+  return yearList
+  //console.log(this.yearList)
+}
     /**
    * Handle any errors from the API
    */

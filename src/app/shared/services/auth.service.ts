@@ -83,7 +83,16 @@ export class AuthService {
     return localStorage.getItem('username');
       
   }
-
+    /**
+   * Get all users
+   */
+  getUsers(): Observable<any> {
+    return this.http.get<any>(environment.usersUrl)
+      .pipe(
+        map(res => res),
+        catchError(this.handleError)
+    );
+  }
   /**
    * Log the user out
    */

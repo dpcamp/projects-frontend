@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import { Requisition } from '../../shared/models';
-import { RequisitionService} from '../../shared/services';
+import { Requisition, Job } from '../../shared/models';
+import { RequisitionService, JobService} from '../../shared/services';
 import { ClrWizard } from '@clr/angular';
+
 
 
 @Component({
@@ -14,12 +15,14 @@ export class RequisitionListComponent implements OnInit{
   editReq = Requisition; 
   @ViewChild('wizardlg') wizardLarge: ClrWizard;
   editReqOpen: boolean = false;
+  yearList: any[]
   
 
 
 
 constructor(
-    private rqsSvc: RequisitionService
+    private rqsSvc: RequisitionService,
+    private jbSvc: JobService
   
   ){ }
   
@@ -33,7 +36,7 @@ constructor(
     )
     }
     editReqWiz(req: any) {
-            
+        this.yearList = this.jbSvc.getYears();    
         this.editReqOpen = !this.editReqOpen;
         this.editReq = req;
 

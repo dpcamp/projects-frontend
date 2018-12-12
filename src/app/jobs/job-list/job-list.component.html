@@ -164,18 +164,22 @@
                         <label>Budget</label>
                         <input clrInput type="text" [(ngModel)]="newJob.budget" name="budget" required />
                     </clr-input-container>
-                    <clr-input-container>
+                    <clr-select-container>select
                             <label>Budget Year</label>
-                            <input clrInput type="text" [(ngModel)]="newJob.year" name="year" required />
-                        </clr-input-container>
-                    <clr-input-container>
+                            <select clrSelect type="text" [ngModel]="newJob.year" (ngModelChange)="newJob.year = $event" name="year" >
+                            <option name="year" *ngFor="let i of yearList">
+                                {{i}}
+                            </option>    
+                            </select>
+                        </clr-select-container>
+                    <clr-select-container>
                         <label>Assigned To</label>
-                        <input clrInput type="text" [(ngModel)]="newJob.assigned_to" name="year" required />
-                    </clr-input-container>
-                    <input type="hidden" name="someData" value="{{data}}" />
-
-  
-
+                        <select clrSelect [ngModel]="newJob" name="assigned_to" (ngModelChange)="newJob.assigned_to = $event" >
+                            <option name="assigned_to" *ngFor="let user of users" [value]="user.username">
+                                {{user.name}}
+                            </option>
+                            </select>   
+                    </clr-select-container>
                 </form>
             </clr-wizard-page>
 

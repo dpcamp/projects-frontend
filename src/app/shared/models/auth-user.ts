@@ -28,13 +28,18 @@ export class AuthUser {
     public data: UserData,
     public authenticated: boolean,
     public username: string,
-    public access: string
+    public name: string, 
+    public created_by: string,
+    public updated_by: string,
+    public access_level: number
 
     ) {}
   }
   export class UserData {
     constructor(
     public id : string,
+    public name: string, 
+    public username: string, 
     public access_level: number,
     public created_at: string,
     public updated_at: string

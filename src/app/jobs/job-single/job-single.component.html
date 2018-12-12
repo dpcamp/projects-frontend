@@ -252,10 +252,14 @@
                 <label>Budget</label>
                 <input clrInput type="text" [(ngModel)]="job.budget" name="budget" required />
             </clr-input-container>
-            <clr-input-container>
+            <clr-select-container>
                     <label>Budget Year</label>
-                    <input clrInput type="text" [(ngModel)]="job.year" name="year" required />
-                </clr-input-container>
+                    <select clrSelect [ngModel]="job.year" (ngModelChange)="job.year = $event" name="year">
+                            <option name="year" *ngFor="let i of yearList">
+                                    {{i}}
+                                </option>       
+                    </select>
+                </clr-select-container>
             <clr-input-container>
                 <label>Assigned To</label>
                 <input clrInput type="text" [(ngModel)]="job.assigned_to" name="assigned_to" required />
@@ -284,11 +288,10 @@
             <form clrForm>
                 <clr-select-container>
                     <label>Budget Year</label>
-                    <select clrSelect [(ngModel)]="selectedReq.budget_year" name="budget_year" >
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2016</option>
+                    <select clrSelect [ngModel]="selectedReq.budget_year" (ngModelChange)="selectedReq.budget_year = $event" name="budget_year" >
+                            <option name="year" *ngFor="let i of yearList">
+                                    {{i}}
+                                </option>   
                     </select>
                 </clr-select-container>
             </form>
