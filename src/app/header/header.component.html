@@ -1,11 +1,11 @@
-<div class="main-container">
+<clr-main-container>
         <div class="alert alert-app-level">
-          ALPHA {{version}}
+          beta {{version}}
         </div>
-        <header class="header header-5">
+        <clr-header class="header header-5">
             <div class="branding">
                 <a routerLink="/" class="nav-link">
-                  <clr-icon shape="calculator" class="is-inverse" ></clr-icon>
+                  <clr-icon shape="line-chart" class="is-inverse" ></clr-icon>
                   <span class="title">Project Costing
                   </span>
                 </a>
@@ -15,18 +15,24 @@
                 <a routerLink="/invoices" routerLinkActive="active" class="nav-link nav-text">Invoices</a>
                 <a routerLink="/requisitions" routerLinkActive="active" class="nav-link nav-text">Requisitions</a>
             </div>
-        <div class="header-actions" *ngIf="userInfo"> <clr-dropdown>
+        <div class="header-actions" *ngIf="userInfo"> 
+          <clr-dropdown>
           <button class="nav-text" clrDropdownTrigger>
            {{userInfo.first_name}} {{userInfo.last_name}}
               <clr-icon shape="caret down"></clr-icon>
           </button>
-          <!-- <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-              <a href="#" clrDropdownItem>Preferences</a>
-              <a href="#" clrDropdownItem>Log out</a>
-          </clr-dropdown-menu> -->
+           <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+              <button type="button" clrDropdownItem [routerLink]="['/jobs']" [queryParams]="{un: userInfo.user_name}">
+                My Jobs
+                </button>
+            
+          </clr-dropdown-menu>
       </clr-dropdown>
       </div>
-        </header>
+      
+        </clr-header>
+
                 <router-outlet></router-outlet>
-    </div>
+
+            </clr-main-container>
     

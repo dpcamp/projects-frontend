@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import  {Subscription } from 'rxjs';
-import { JobService, InvoiceService, AuthService } from '../../shared/services/';
+import { JobService, AuthService } from '../../shared/services/';
 import { Job, Invoice, Requisition, UserData, UserAccess } from '../../shared/models/';
 import {ClrDatagridStringFilterInterface, ClrDatagridSortOrder, ClrWizard, ClrDatagridFilter} from '@clr/angular';
 import { Chart } from 'chart.js';
 import { PopoverOptions } from '@clr/angular/popover/common/popover-options.interface';
+import { ActivatedRoute, Params } from '@angular/router';
 
 
 
-class JobFilter implements ClrDatagridStringFilterInterface<Job> {
+class DgJobFilter implements ClrDatagridStringFilterInterface<Job> {
     accepts(job: Job, search: string): boolean {
         return job.job_num.toLowerCase().indexOf(search) >= 0;
     }
@@ -25,6 +26,7 @@ export class JobListComponent implements OnInit {
     @ViewChild('wizardlg') wizardLarge: ClrWizard;
     @ViewChild('jobWiz') wizardJob: ClrWizard;
     @ViewChild('lineChart') private chartRef;
+    searchText =''
     chart: any;
     totalBudget: any[];
     jobs: Job[];
@@ -37,7 +39,7 @@ export class JobListComponent implements OnInit {
     newJob: Job = {};
     newRqs: Requisition;
     users: UserData[] = [];
-    jobFilter = new JobFilter();
+    jobFilterDg = new DgJobFilter();
     descSort = ClrDatagridSortOrder.DESC;
     lgOpen: boolean = false;
     jobOpen: boolean = false;
@@ -48,21 +50,35 @@ export class JobListComponent implements OnInit {
     thisMonth: number
 
     getJobs(){
+        const user = this.route.snapshot.queryParams['un']
+        if(user)
+        {
+            this.authService.getUserJobs(user)
+            .subscribe(jobs => {
+                this.jobs = jobs.data.jobs
+                console.log(jobs)
+            })
+        } else {
         this.jobService.getJobs()
         .subscribe(jobs => {
             this.jobs = jobs.data;
             });
+        }
     }
 
     constructor(
     private jobService: JobService, 
-    private invService: InvoiceService,
-    public authService: AuthService
+    public authService: AuthService,
+    private route: ActivatedRoute
     ) { }
     ngOnInit() {
-        
+            this.route.queryParams.subscribe(queryParams => {
+      //console.log(queryParams); 
+      this.getJobs()
 
-        this.getJobs()
+    });
+
+        
 
     }
 

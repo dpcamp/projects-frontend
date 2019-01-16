@@ -13,10 +13,12 @@ import { Routing } from './app.routing';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
+import { JobFilterPipe } from './shared/pipes/filter.pipe'
 
 @NgModule({
   declarations: [
     AppComponent,
+    JobFilterPipe,
     cpt.JobsComponent,
     cpt.JobListComponent,
     cpt.JobSingleComponent,

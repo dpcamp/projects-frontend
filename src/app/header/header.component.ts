@@ -26,6 +26,7 @@ constructor(
     
     this.userInfo.first_name = localStorage.getItem('firstName')
     this.userInfo.last_name = localStorage.getItem('lastName')
+    this.userInfo.user_name = localStorage.getItem('username')
 
   
   }

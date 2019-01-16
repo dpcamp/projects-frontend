@@ -65,8 +65,11 @@ export class AuthService {
           
 
   }
-
-  getUser(un: string): Observable<User> {
+    /**
+   * Get User Data
+   * Logs firstName and lastName to localStorage
+   */
+  getUser(un: string): Observable<any> {
     this.authUserSource.next(un)
     localStorage.setItem('username', un)
     return this.http.get<User>(`${environment.ADUrl}/${un}`)
@@ -76,6 +79,18 @@ export class AuthService {
           localStorage.setItem('firstName', res.first_name)
           localStorage.setItem('lastName', res.last_name)
         }),
+        catchError(this.handleError)
+      )
+  }
+    /**
+   * gets all jobs associated with a user
+   */
+  getUserJobs(un: string): Observable<any> {
+    this.authUserSource.next(un)
+    localStorage.setItem('username', un)
+    return this.http.get<any>(`${environment.usersUrl}/${un}`)
+      .pipe(
+        map(res => res),
         catchError(this.handleError)
       )
   }

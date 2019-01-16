@@ -4,7 +4,7 @@ import { Http, Response } from '@angular/http';
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, switchMap, catchError, mergeMap, tap } from 'rxjs/operators';
-import { Job } from '../models/';
+import { Job, User } from '../models/';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -21,6 +21,17 @@ export class JobService {
    */
     getJobs(): Observable<any> {
     return this.httpClient.get(this.jobsUrl)
+      .pipe(
+        map(res => res),
+      // .map(users => users.map(this.toUser))
+       catchError(this.handleError)
+    );
+  }
+      /**
+   * Get all jobs
+   */
+  getUserJobs(user: string): Observable<any> {
+    return this.httpClient.get(`${this.jobsUrl}/${user}`)
       .pipe(
         map(res => res),
       // .map(users => users.map(this.toUser))

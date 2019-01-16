@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import  {Subscription } from 'rxjs';
 import { JobService, InvoiceService, AuthService, RequisitionService } from '../../shared/services';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Job, Requisition, Project, Invoice, AuthUser, User } from '../../shared/models';
+import { Job, Requisition, Project, Invoice, UserData, User } from '../../shared/models';
 import { ClrDatagridStringFilterInterface, ClrWizard } from '@clr/angular';
 import { FLAGS } from '@angular/core/src/render3/interfaces/view';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
@@ -42,6 +42,7 @@ export class JobSingleComponent implements OnInit{
     streamUser: string;
     routeUser: string;
     yearList: any[] = []
+    users: UserData[] = [];
 
         get selected() {
         return this._selected;
@@ -83,6 +84,19 @@ export class JobSingleComponent implements OnInit{
         if (this.yearList.length == 0){
             this.yearList = this.jobService.getYears();
             }
+            this.authService.getUsers()
+        
+            .subscribe(res => {
+                this.users = res.data
+                this.users.push({id: null, 
+                                name: "Unassigned",
+                                username: null, 
+                                access_level: null,
+                                created_at:null,
+                                updated_at:null})
+                console.log(res.data)
+                 
+            })
 
 
     }

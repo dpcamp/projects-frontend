@@ -1,15 +1,31 @@
+<nav class="subnav">
+    <ul class="nav">
+
+        <li class="nav-item">
+            <a routerLink="/jobs" routerLinkActive="active" [queryParams]="{un: logUser}" class="nav-link">My Jobs</a>
+        </li>
+ 
+    </ul>
+</nav>
 <div class="content-container">
         <div class="content-area">
-                <h1>Job List</h1>
-                <button class="btn"(click)="openJobWizard()">Add Job</button>
-                <!--<button class="btn" (click)="openWizard()">Add Invoice</button>-->
+                <h1>Job List 
+                    <button class="btn btn-primary"(click)="openJobWizard()">
+                        <clr-icon shape="plus"></clr-icon>
+                        Add Job</button>
+                    </h1>
+         <div style="margin-top: 24px;">   
+                        <div class="inner-addon left-addon">
+                        <clr-icon class="glyphicon" style="color: #0079b8;" shape="search" size="24"></clr-icon>
+                        <input style="width: 100%" type="text" placeholder="Search By Job Number" name="jobSearch" [(ngModel)]="searchText" size="24"/>
+                        </div>
+                                <!--<button class="btn" (click)="openWizard()">Add Invoice</button>-->
 
-                <clr-datagrid>
+                         
+           <clr-datagrid>
                         <clr-dg-column>
                             Job #
-                            <clr-dg-string-filter #leftJobFilter [clrDgStringFilter]="jobFilter" ></clr-dg-string-filter>
                         </clr-dg-column>
-                        <clr-dg-column>Work Center</clr-dg-column>
                         <clr-dg-column>Mutual</clr-dg-column>
                         <clr-dg-column>Title</clr-dg-column>
                         <clr-dg-column>Budget Year</clr-dg-column>
@@ -19,9 +35,8 @@
                         <clr-dg-column [clrDgField]="'live_committed'" [clrDgSortOrder]="descSort">Committed</clr-dg-column>
                         <clr-dg-column [clrDgField]="'live_uncommitted'" [clrDgSortOrder]="descSort">Uncommitted</clr-dg-column>
                     
-                        <clr-dg-row *clrDgItems="let job of jobs" [clrDgItem]="job">
+                        <clr-dg-row *clrDgItems="let job of jobs | jobFilter: searchText" [clrDgItem]="job">
                             <clr-dg-cell><a [routerLink]="['/jobs', job.proj_id]" [queryParams]="{year: job.year}">{{job.job_num}}</a></clr-dg-cell>
-                            <clr-dg-cell>{{job.work_center}}</clr-dg-cell>
                             <clr-dg-cell>{{job.mutual}}</clr-dg-cell>
                             <clr-dg-cell>{{job.job_title}}</clr-dg-cell>
                             <clr-dg-cell>{{job.year}}</clr-dg-cell>
@@ -41,6 +56,7 @@
                             </clr-dg-footer>
                     </clr-datagrid>
         </div>
+    </div>    
         <!--<nav class="sidenav">
                 <section class="sidenav-content">
                     <a href="..." class="nav-link active">

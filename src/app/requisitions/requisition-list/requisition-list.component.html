@@ -3,11 +3,10 @@
             <h1>All Requisitions</h1>
         <clr-datagrid>
                 <clr-dg-column>
-                    Requisition #
-                   
+                    Requisition #                
                 </clr-dg-column>
+                <clr-dg-column>Line #</clr-dg-column>
                 <clr-dg-column>Description</clr-dg-column>
-                <clr-dg-column>Line Number</clr-dg-column>
                 <clr-dg-column>Line Name</clr-dg-column>
                 <clr-dg-column>PO Number</clr-dg-column>
                 <clr-dg-column>Project</clr-dg-column>
@@ -17,8 +16,8 @@
             
                 <clr-dg-row *clrDgItems="let req of reqs" [clrDgItem]="req">
                     <clr-dg-cell><a [routerLink]="" (click)="editReqWiz(req)">{{req.req_num}}</a></clr-dg-cell>
-                    <clr-dg-cell>{{req.req_desc}}</clr-dg-cell>
                     <clr-dg-cell>{{req.line_num}}</clr-dg-cell>
+                    <clr-dg-cell>{{req.req_desc}}</clr-dg-cell>
                     <clr-dg-cell>{{req.line_name}}</clr-dg-cell>
                     <clr-dg-cell>{{req.po_num}}</clr-dg-cell>
                     <clr-dg-cell>{{req.proj_id}}</clr-dg-cell>
@@ -73,7 +72,7 @@
 
             <clr-select-container>
                 <label>Budget Year</label>
-                <select clrSelect  (ngModel)="editReq.budget_year" (ngModelChanges)="editReq.budget_year = $event" name="budget_year" >
+                <select clrSelect (ngModel)="editReq.budget_year" (ngModelChanges)="editReq.budget_year = $event" name="budget_year" >
                 <option name="budget_year" *ngFor="let i of yearList">
                         {{i}}
                     </option> 
