@@ -36,6 +36,42 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'news',
+        component: cpt.NewsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: '',
+                component: cpt.NewsReleaseComponent
+                
+            },
+            {
+                path: '',
+                outlet: 'news-subnav',
+                component: cpt.NewsSidebarComponent
+                
+            }
+        ]
+    },
+    {
+        path: 'backlog',
+        component: cpt.NewsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: '',
+                component: cpt.NewsBacklogComponent
+                
+            },
+            {
+                path: '',
+                outlet: 'news-subnav',
+                component: cpt.NewsSidebarComponent
+                
+            }
+        ]
+    },
+    {
         path: 'login',
         component: cpt.LoginComponent,
         pathMatch: 'full'

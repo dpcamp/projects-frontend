@@ -1,6 +1,10 @@
 <div class="content-container">
     <div class="content-area">
             <h1>All Requisitions</h1>
+            <div class="inner-addon left-addon">
+                    <clr-icon class="glyphicon" style="color: #0079b8;" shape="search" size="24"></clr-icon>
+                    <input style="width: 100%" type="text" placeholder="Search By Job Number" name="reqSearch" [(ngModel)]="searchText" size="24"/>
+                    </div>
         <clr-datagrid>
                 <clr-dg-column>
                     Requisition #                
@@ -14,7 +18,7 @@
                 <clr-dg-column>Budget Year</clr-dg-column>
 
             
-                <clr-dg-row *clrDgItems="let req of reqs" [clrDgItem]="req">
+                <clr-dg-row *clrDgItems="let req of reqs | reqFilter: searchText" [clrDgItem]="req">
                     <clr-dg-cell><a [routerLink]="" (click)="editReqWiz(req)">{{req.req_num}}</a></clr-dg-cell>
                     <clr-dg-cell>{{req.line_num}}</clr-dg-cell>
                     <clr-dg-cell>{{req.req_desc}}</clr-dg-cell>

@@ -15,7 +15,7 @@
     isAdmin = false;
     subscription: Subscription;
     logUser: string;
-    isLoggedIn: boolean = false;
+    isLoggedIn: boolean;
   
   
   constructor(
@@ -23,8 +23,9 @@
     ){ }
     
     ngOnInit(){
+
       this.isLoggedIn = (localStorage.getItem('isLoggedIn') == "true")
-      this.UserAuth()
+            this.UserAuth()
   
     
     }

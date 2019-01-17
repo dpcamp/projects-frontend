@@ -9,23 +9,28 @@ import { ClarityModule} from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as svc from '../app/shared/services';
 import * as cpt from '../app';
+import * as pipe from '../app/shared/pipes';
 import { Routing } from './app.routing';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
-import { JobFilterPipe } from './shared/pipes/filter.pipe'
 
 @NgModule({
   declarations: [
     AppComponent,
-    JobFilterPipe,
+    pipe.JobFilterPipe,
+    pipe.ReqFilterPipe,
     cpt.JobsComponent,
     cpt.JobListComponent,
     cpt.JobSingleComponent,
     cpt.LoginComponent,
     cpt.HeaderComponent,
     cpt.InvoiceListComponent,
-    cpt.RequisitionListComponent
+    cpt.RequisitionListComponent,
+    cpt.NewsComponent,
+    cpt.NewsSidebarComponent,
+    cpt.NewsReleaseComponent,
+    cpt.NewsBacklogComponent
   ],
   imports: [
     BrowserModule,

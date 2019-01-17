@@ -16,6 +16,7 @@ export class RequisitionListComponent implements OnInit{
   @ViewChild('wizardlg') wizardLarge: ClrWizard;
   editReqOpen: boolean = false;
   yearList: any[]
+  searchText = ''
   
 
 

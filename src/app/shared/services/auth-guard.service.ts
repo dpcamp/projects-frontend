@@ -35,7 +35,9 @@ export class AuthGuardService implements CanActivate {
       this.authSvc.auth(authUser.user_name)
       .subscribe(res => {
         if (this.authSvc.isLoggedIn() === true) {
+          window.location.reload() //hack to refresh page when user logs in for the first time
           return true;
+          
         }
         else {
           this.router.navigate(['/login'])
