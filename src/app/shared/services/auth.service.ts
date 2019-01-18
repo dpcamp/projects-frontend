@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map, switchMap, catchError, mergeMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
-import { UserAccess } from '../models/index'
+import { UserAccess, User } from '../models/index'
 
 //import { LoggedUser } from '../models/logged-user'
 
@@ -26,8 +26,16 @@ export class AuthService {
    * Check if the user is logged in
   */
   isLoggedIn():boolean {
+    if (this.loggedIn === true){
+      localStorage.setItem('isLoggedIn', 'true');
     return this.loggedIn;
+    } else {
+      localStorage.setItem('isLoggedIn', 'false');
+      return this.loggedIn;
+    }
+      
   }
+  
 
   /**
    * Log the user in
@@ -57,11 +65,30 @@ export class AuthService {
           
 
   }
-
+    /**
+   * Get User Data
+   * Logs firstName and lastName to localStorage
+   */
   getUser(un: string): Observable<any> {
     this.authUserSource.next(un)
     localStorage.setItem('username', un)
-    return this.http.get(`${environment.ADUrl}/${un}`)
+    return this.http.get<User>(`${environment.ADUrl}/${un}`)
+      .pipe(
+        map(res => res),
+        tap(res => {
+          localStorage.setItem('firstName', res.first_name)
+          localStorage.setItem('lastName', res.last_name)
+        }),
+        catchError(this.handleError)
+      )
+  }
+    /**
+   * gets all jobs associated with a user
+   */
+  getUserJobs(un: string): Observable<any> {
+    this.authUserSource.next(un)
+    localStorage.setItem('username', un)
+    return this.http.get<any>(`${environment.usersUrl}/${un}`)
       .pipe(
         map(res => res),
         catchError(this.handleError)
@@ -71,7 +98,16 @@ export class AuthService {
     return localStorage.getItem('username');
       
   }
-
+    /**
+   * Get all users
+   */
+  getUsers(): Observable<any> {
+    return this.http.get<any>(environment.usersUrl)
+      .pipe(
+        map(res => res),
+        catchError(this.handleError)
+    );
+  }
   /**
    * Log the user out
    */

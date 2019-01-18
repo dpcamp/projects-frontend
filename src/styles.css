@@ -1,1 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
+.center-div
+{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+}
+
+/* enable absolute positioning */
+.inner-addon { 
+  position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+position: absolute;
+pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  {     padding-bottom: 10px; padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.summary-block-title {
+  margin-top: 0;
+  font-size: 12px;
+  line-height: normal;
+  font-weight: 600;
+}
+
+
+ .summary-block-details{
+    margin-top: 0;
+    font-size: 18px;
+    line-height: 1.2em;
+}
+.summary-block {
+  float: left;
+  margin-right: 18px;
+}
+.whats-new-summary {
+  margin-right: 0;
+  margin-top: 12px;
+  padding-bottom: 6px;
+  padding-top: 12px;
+  position: static;
+}
+
+.count {
+  font-weight: 600;
+}
+h6+p {
+  margin-top: 6px;
+}

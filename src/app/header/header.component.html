@@ -1,0 +1,53 @@
+<clr-main-container>
+  <div class="alert alert-app-level alert-info" role="alert" *ngIf="versionAlert == true">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-text">
+          Beta {{version}} Released!
+        </div>
+        <div class="alert-actions">
+          <button class="btn alert-action" [routerLink]="['/news']">Whats New</button>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close"(click)="closeAlert()">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+  <clr-header class="header header-5">
+    <div class="branding">
+      <a routerLink="/" class="nav-link">
+        <clr-icon shape="line-chart" class="is-inverse"></clr-icon>
+        <span class="title">Project Costing
+        </span>
+      </a>
+    </div>
+    <div class="header-nav" [clr-nav-level]="1">
+      <a routerLink="/jobs" routerLinkActive="active" class="nav-link nav-text">Jobs</a>
+      <a routerLink="/invoices" routerLinkActive="active" class="nav-link nav-text">Invoices</a>
+      <a routerLink="/requisitions" routerLinkActive="active" class="nav-link nav-text">Requisitions</a>
+    </div>
+    <div class="header-actions" *ngIf="userInfo">
+      <clr-dropdown>
+        <button class="nav-text" clrDropdownTrigger>
+          {{userInfo.first_name}} {{userInfo.last_name}}
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          <button type="button" clrDropdownItem [routerLink]="['/jobs']" [queryParams]="{un: userInfo.user_name}">
+            My Jobs
+          </button>
+          <div class="dropdown-divider"></div>
+          <button type="button" clrDropdownItem [routerLink]="['/news']">
+            Help Me
+          </button>
+
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+
+  </clr-header>
+
+  <router-outlet></router-outlet>
+
+</clr-main-container>

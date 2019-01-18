@@ -4,12 +4,13 @@ import { Http, Response } from '@angular/http';
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, switchMap, catchError, mergeMap, tap } from 'rxjs/operators';
-import { Job } from '../models/';
+import { Job, User } from '../models/';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class JobService {
     private jobsUrl: string = environment.jobsUrl;
+    today: Date =  new Date()
 
     constructor(
         private http: Http,
@@ -20,6 +21,17 @@ export class JobService {
    */
     getJobs(): Observable<any> {
     return this.httpClient.get(this.jobsUrl)
+      .pipe(
+        map(res => res),
+      // .map(users => users.map(this.toUser))
+       catchError(this.handleError)
+    );
+  }
+      /**
+   * Get all jobs
+   */
+  getUserJobs(user: string): Observable<any> {
+    return this.httpClient.get(`${this.jobsUrl}/${user}`)
       .pipe(
         map(res => res),
       // .map(users => users.map(this.toUser))
@@ -87,7 +99,24 @@ export class JobService {
        catchError(this.handleError)
     );
 }
+getMonth(): any{
+  
+  let thisMonth = this.today.getMonth() + 1
+  return thisMonth
+}
+getYears(): any[]{
 
+  let thisYear = this.today.getFullYear()
+
+  let firstYear = 2015
+  const yearList: any[] = []
+  for(let i = thisYear + 1; i >= firstYear; i--){
+      
+      yearList.push(i)
+  }
+  return yearList
+  //console.log(this.yearList)
+}
     /**
    * Handle any errors from the API
    */

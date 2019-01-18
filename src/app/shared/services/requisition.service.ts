@@ -15,6 +15,17 @@ export class RequisitionService {
         private http: Http,
         protected httpClient: HttpClient
       ) {}
+    /**
+   * Get All Requisitions
+   * 
+   */
+      getReqs(): Observable<any> {
+        return this.httpClient.get(this.reqsUrl)
+          .pipe(
+            map(res => res),
+           catchError(this.handleError)
+        );
+      }
 
     /**
    * Update the budget year on a requisition.

@@ -9,7 +9,8 @@ export const environment = {
   invsUrl: 'http://192.168.235.96:3000/api/invoices',
   reqsUrl: 'http://192.168.235.96:3000/api/requisitions',
   authUrl: 'http://GRF-MISDEV:8888/',
-  ADUrl: 'http://GRF-MISDEV:3000/api/users'
+  ADUrl: 'http://GRF-MISDEV:3000/api/users',
+  VERSION: require('../../package.json').version
 };
 
 /*

@@ -8,39 +8,40 @@ import { User, AuthUser, UserAccess } from '../models';
 @Injectable()
 
 export class AuthGuardService implements CanActivate {
-  authUser: AuthUser;
+  authUser: User;
   userAccess: UserAccess;
   loggedIn = false;
   constructor(
-    public auth: AuthService, 
+    public auth: AuthService,
     public router: Router,
     private authSvc: AuthService
-    ) 
-    {}
-  canActivate(): Observable<boolean> {
-    const subject = new Subject<boolean>();
+  ) { }
+  canActivate(): boolean {
+    if (localStorage.getItem('isLoggedIn') == 'true') { return true }
+    else {
 
-    this.authSvc.login()
-    .pipe(
-      mergeMap(dataresults => of(dataresults)),
-    switchMap(userInfo => this.authSvc.getUser(userInfo.user_name))
-    )
-      .subscribe(authUser => {
-      this.authUser = authUser
-      console.log(authUser)
-      this.authSvc.auth(authUser.user_name)
-      .subscribe(res => {
-        if (this.authSvc.isLoggedIn() === true) {
-          subject.next(true);
-        }
-        else {
-          this.router.navigate(['/login'])
-          subject.next(false);
-        }
-      })
-      
-    })
-    console.log(this.authSvc.isLoggedIn())
-    return subject.asObservable();
+      this.authSvc.login()
+        .pipe(
+          mergeMap(dataresults => of(dataresults)),
+          switchMap(userInfo => this.authSvc.getUser(userInfo.user_name))
+        )
+        .subscribe(authUser => {
+          this.authUser = authUser
+          this.authSvc.auth(authUser.user_name)
+            .subscribe(res => {
+              if (this.authSvc.isLoggedIn() === true) {
+                window.location.reload() //hack to refresh page when user logs in for the first time
+                return true;
+
+              }
+              else {
+                this.router.navigate(['/login'])
+                return false;
+              }
+            })
+
+        })
+    }
+
   }
 }

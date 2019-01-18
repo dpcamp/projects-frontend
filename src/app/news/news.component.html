@@ -1,0 +1,20 @@
+<nav class="subnav">
+        <ul class="nav">
+                <li class="nav-item">
+                        <a routerLink="/news/" routerLinkActive="active"  class="nav-link">Whats New</a>
+                    </li>
+            <li class="nav-item">
+                <a routerLink="/backlog" routerLinkActive="active"  class="nav-link">Backlog Status</a>
+            </li>
+
+     
+        </ul>
+    </nav>
+<div class="content-container">
+        <main class="content-area">
+<router-outlet></router-outlet>
+        </main>
+<nav class="sidenav"  [clr-nav-level]="2">
+        <router-outlet name="news-subnav" ></router-outlet> 
+    </nav>
+    </div>

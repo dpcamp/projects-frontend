@@ -26,6 +26,52 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'invoices',
+        component: cpt.InvoiceListComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'requisitions',
+        component: cpt.RequisitionListComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'news',
+        component: cpt.NewsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: '',
+                component: cpt.NewsReleaseComponent
+                
+            },
+            {
+                path: '',
+                outlet: 'news-subnav',
+                component: cpt.NewsSidebarComponent
+                
+            }
+        ]
+    },
+    {
+        path: 'backlog',
+        component: cpt.NewsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: '',
+                component: cpt.NewsBacklogComponent
+                
+            },
+            {
+                path: '',
+                outlet: 'news-subnav',
+                component: cpt.NewsSidebarComponent
+                
+            }
+        ]
+    },
+    {
         path: 'login',
         component: cpt.LoginComponent,
         pathMatch: 'full'
