@@ -262,7 +262,7 @@
                 </clr-select-container>
                 <clr-select-container>
                     <label>Assigned To</label>
-                    <select clrSelect [ngModel]="job" name="assigned_to" (ngModelChange)="job.assigned_to = $event" >
+                    <select clrSelect [ngModel]="job.assigned_to" name="assigned_to" (ngModelChange)="job.assigned_to = $event" >
                         <option name="assigned_to" *ngFor="let user of users" [value]="user.username">
                             {{user.name}}
                         </option>
