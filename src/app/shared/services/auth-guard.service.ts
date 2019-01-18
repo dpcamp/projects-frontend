@@ -12,44 +12,36 @@ export class AuthGuardService implements CanActivate {
   userAccess: UserAccess;
   loggedIn = false;
   constructor(
-    public auth: AuthService, 
+    public auth: AuthService,
     public router: Router,
     private authSvc: AuthService
-    ) 
-    {}
+  ) { }
   canActivate(): boolean {
-    if(localStorage.getItem('isLoggedIn') == 'true')
-    {console.log('THIS IS TRUE')
-    console.log(this.authSvc.isLoggedIn())
-    return true}
+    if (localStorage.getItem('isLoggedIn') == 'true') { return true }
     else {
-      
+
       this.authSvc.login()
-    .pipe(
-      mergeMap(dataresults => of(dataresults)),
-    switchMap(userInfo => this.authSvc.getUser(userInfo.user_name))
-    )
-      .subscribe(authUser => {
-      this.authUser = authUser
-      console.log(authUser)
-      this.authSvc.auth(authUser.user_name)
-      .subscribe(res => {
-        if (this.authSvc.isLoggedIn() === true) {
-          window.location.reload() //hack to refresh page when user logs in for the first time
-          return true;
-          
-        }
-        else {
-          this.router.navigate(['/login'])
-          return false;
-        }
-      })
-      
-    })
+        .pipe(
+          mergeMap(dataresults => of(dataresults)),
+          switchMap(userInfo => this.authSvc.getUser(userInfo.user_name))
+        )
+        .subscribe(authUser => {
+          this.authUser = authUser
+          this.authSvc.auth(authUser.user_name)
+            .subscribe(res => {
+              if (this.authSvc.isLoggedIn() === true) {
+                window.location.reload() //hack to refresh page when user logs in for the first time
+                return true;
+
+              }
+              else {
+                this.router.navigate(['/login'])
+                return false;
+              }
+            })
+
+        })
     }
-    
-    
-    //console.log(subject.asObservable())
-    //return subject.asObservable();
+
   }
 }

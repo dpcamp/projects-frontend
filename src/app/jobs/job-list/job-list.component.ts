@@ -56,7 +56,7 @@ export class JobListComponent implements OnInit {
             this.authService.getUserJobs(user)
             .subscribe(jobs => {
                 this.jobs = jobs.data.jobs
-                console.log(jobs)
+                
             })
         } else {
         this.jobService.getJobs()
@@ -73,7 +73,7 @@ export class JobListComponent implements OnInit {
     ) { }
     ngOnInit() {
             this.route.queryParams.subscribe(queryParams => {
-      //console.log(queryParams); 
+      
       this.getJobs()
 
     });
@@ -88,7 +88,7 @@ export class JobListComponent implements OnInit {
         this.newJob.created_by = this.logUser
         this.jobService.createJob(this.newJob)
         .subscribe(n => {
-            console.log(n)
+            
             this.getJobs()
         })
     }
@@ -102,7 +102,7 @@ export class JobListComponent implements OnInit {
         this.lgOpen = !this.lgOpen;
     }
     openJobWizard() {
-        console.log(this.jobService.getMonth())
+        
         this.authService.getUsers()
         
         .subscribe(res => {
@@ -113,12 +113,12 @@ export class JobListComponent implements OnInit {
                             access_level: null,
                             created_at:null,
                             updated_at:null})
-            console.log(res.data)
+            
              
         })
         if (this.yearList.length == 0){
         this.yearList = this.jobService.getYears();
-        console.log(this.jobService.getYears())
+        
         }
         if (this.jobService.getMonth() == 12){
         this.newJob.year = this.yearList[0]

@@ -24,7 +24,7 @@ constructor(
   
   ngOnInit(){
 
-    console.log(`VERSION: ${environment.VERSION}`)
+    
     if (localStorage.getItem('alertClosed') == this.version) {
       this.versionAlert = false;
     }
@@ -32,7 +32,7 @@ constructor(
       this.versionAlert = true;
     }
     
-    console.log(this.userInfo)
+    
     this.userInfo.first_name = localStorage.getItem('firstName')
     this.userInfo.last_name = localStorage.getItem('lastName')
     this.userInfo.user_name = localStorage.getItem('username')

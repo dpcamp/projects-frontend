@@ -6,11 +6,11 @@ import { environment } from 'src/environments/environment.prod';
     templateUrl: 'news-sidebar.component.html'
 })
 
-export class NewsSidebarComponent implements OnInit{
+export class NewsSidebarComponent implements OnInit {
     public version: string = environment.VERSION;
 
-ngOnInit() {
-    
+    ngOnInit() {
 
-}
+
+    }
 }

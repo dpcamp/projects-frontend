@@ -20,6 +20,7 @@ import { WinAuthInterceptor } from './shared/interceptors/winauth.interceptor';
     AppComponent,
     pipe.JobFilterPipe,
     pipe.ReqFilterPipe,
+    pipe.InvFilterPipe,
     cpt.JobsComponent,
     cpt.JobListComponent,
     cpt.JobSingleComponent,
